@@ -27,7 +27,7 @@ public class AdminController {
     private UserMapper userMapper;
 
 
-    //转为ViewConfig全局配置类跳转
+    //转为ViewConfig全局配置类跳转12
 //    @RequestMapping(value = "login", method = RequestMethod.GET)
 ////    public String login() {
 ////        return "admin/login";
