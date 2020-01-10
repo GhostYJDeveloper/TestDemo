@@ -38,7 +38,7 @@ public class OrderController {
     OrderMapper orderMapper;
     @Autowired
     WarehouseMapper warehouseMapper;
-
+//2323
     @RequestMapping(value = "/order/add/{number}", method = RequestMethod.GET)
     public ModelAndView gotoAdd(@PathVariable String number, HttpSession session) {
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
