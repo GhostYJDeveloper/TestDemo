@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.model.mapper.OrderMapper">
+    <resultMap id="OrderMap" type="com.example.demo.model.order.Order">
+        <result column="o_id" property="id"/>
+        <result column="o_userId" property="userId"/>
+        <result column="o_userChineseName" property="userChineseName"/>
+        <result column="o_cargoNumber" property="cargoNumber"/>
+        <result column="o_orderNumber" property="orderNumber"/>
+        <result column="o_orderDate" property="orderDate"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.example.demo.model.order.Order">
+        insert into t_order (o_id, o_userId, o_userChineseName, o_cargoNumber, o_orderNumber, o_orderDate)
+        values (#{id}, #{userId}, #{userChineseName}, #{cargoNumber}, #{orderNumber}, #{orderDate})
+    </insert>
+
+    <!--根据Id查询-->
+    <select id="selectById" resultMap="OrderMap" parameterType="java.lang.Long">
+        select *
+        from t_order
+        where o_id = #{id}
+    </select>
+
+    <!--分页查询-->
+    <select id="selectByPage" resultMap="OrderMap" parameterType="map">
+        select * from t_order
+        WHERE 1=1
+        -- 为0时认定为'',此处不筛选
+        <if test="userChineseName != null and userChineseName!=''">
+            AND o_userChineseName=#{userChineseName}
+        </if>
+        limit #{currentIndex} , #{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="map">
+        select count(*)
+        from t_order
+        WHERE 1=1
+        -- 为0时认定为'',此处不筛选
+        <if test="userChineseName != null and userChineseName!=''">
+            AND o_userChineseName=#{userChineseName}
+        </if>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from t_order
+        where o_id = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch">
+        <!-- delete from t_warehouse where wh_id in(1,2) -->
+        <!-- forEach : 用来循环 collection : 用来指定循环的数据的类型 可以填的值有：array,list,map item
+            : 循环中为每个循环的数据指定一个别名 index : 循环中循环的下标 open : 开始 close : 结束 separator : 数组中元素之间的分隔符 -->
+        delete from t_order where o_id in
+        <foreach collection="list" item="id" index="no" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

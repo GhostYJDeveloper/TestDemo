@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.model.mapper.WarehouseMapper">
+    <resultMap id="WarehouseMap" type="com.example.demo.model.warehouse.Warehouse">
+        <result column="wh_id" property="id"/>
+        <result column="wh_number" property="number"/>
+        <result column="wh_name" property="name"/>
+        <result column="wh_type" property="type" typeHandler="com.example.demo.common.WarehouseEnumStatusHandler"/>
+        <result column="wh_count" property="count"/>
+        <result column="wh_addDate" property="addDate"/>
+        <result column="wh_outDate" property="outDate"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.example.demo.model.warehouse.Warehouse">
+        insert into t_warehouse (wh_id, wh_number, wh_name, wh_type, wh_count, wh_addDate, wh_outDate)
+        values (#{id}, #{number}, #{name}, #{type,typeHandler=com.example.demo.common.WarehouseEnumStatusHandler}, #{count},
+                #{addDate}, #{outDate})
+    </insert>
+
+    <!--根据Id查询-->
+    <select id="selectById" resultMap="WarehouseMap" parameterType="java.lang.Long">
+        select *
+        from t_warehouse
+        where wh_id = #{id}
+    </select>
+
+    <!--根据货物类型查询-->
+    <select id="selectByType" resultMap="WarehouseMap" parameterType="java.lang.Integer">
+        select *
+        from t_warehouse
+        where wh_type = #{type}
+    </select>
+
+    <!--根据货物类型查询-->
+    <select id="selectByNumber" resultMap="WarehouseMap" parameterType="java.lang.String">
+        select *
+        from t_warehouse
+        where wh_number = #{number} limit 1
+    </select>
+
+
+    <!--分页查询-->
+    <select id="selectByPage" resultMap="WarehouseMap" parameterType="map">
+        select * from t_warehouse
+        WHERE 1=1
+        -- 为0时认定为'',此处不筛选
+        <if test="name != null and name!=''">
+            AND wh_name=#{name}
+        </if>
+        <if test="type != null and type!=''">
+            AND wh_type=#{type}
+        </if>
+        limit #{currentIndex} , #{pageSize}
+    </select>
+
+    <select id="selectByNumberList" resultMap="WarehouseMap">
+        select * from t_warehouse where wh_number in
+        <foreach collection="list" item="number" index="no" open="("
+                 separator="," close=")">
+            #{number}
+        </foreach>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*)
+        from t_warehouse
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from t_warehouse
+        where wh_id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.example.demo.model.warehouse.Warehouse">
+        UPDATE t_warehouse
+        SET wh_number=#{number},wh_name=#{name},wh_type=#{type,typeHandler=com.example.demo.common.WarehouseEnumStatusHandler}
+            ,wh_count=#{count},wh_addDate=#{addDate},wh_outDate=#{outDate}
+        WHERE wh_id=#{id}
+    </update>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch">
+        <!-- delete from t_warehouse where wh_id in(1,2) -->
+        <!-- forEach : 用来循环 collection : 用来指定循环的数据的类型 可以填的值有：array,list,map item
+            : 循环中为每个循环的数据指定一个别名 index : 循环中循环的下标 open : 开始 close : 结束 separator : 数组中元素之间的分隔符 -->
+        delete from t_warehouse where wh_id in
+        <foreach collection="list" item="id" index="no" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
