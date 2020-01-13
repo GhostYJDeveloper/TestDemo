@@ -72,7 +72,7 @@ public class OrderController {
         Date date = format.parse(orderDate);
         //生成编号
         String orderNumber = CreateNumber.make();
-        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, orderNumber, date);
+        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, orderNumber, date,Integer.parseInt(buyCount));
         orderMapper.insert(order);
 
         //减库存
@@ -138,7 +138,12 @@ public class OrderController {
     @RequestMapping(value = "/rest/order",method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteById(String id){
+        Order order = orderMapper.selectById(Long.parseLong(id));
+        Warehouse warehouse = warehouseMapper.selectByNumber(order.getCargoNumber());
+        warehouse.setCount(warehouse.getCount()+order.getBuyCount());
+        warehouseMapper.update(warehouse);
         int flag = orderMapper.deleteById(Long.parseLong(id));
+
         if(flag>0){
             return  Result.success("删除成功");
         }

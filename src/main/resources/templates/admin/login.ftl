@@ -36,7 +36,7 @@
     <div class="layui-bg-blue"></div>
     <form class="layui-form" action="index" method="get">
         <div class="layui-form-item">
-            <input class="layui-input" name="userName" placeholder="用户名" lay-verify="required" type="password"
+            <input class="layui-input" name="userName" placeholder="用户名" lay-verify="required" type="text"
                    autocomplete="off">
         </div>
         <div class="layui-form-item">

@@ -8,17 +8,18 @@
         <result column="o_cargoNumber" property="cargoNumber"/>
         <result column="o_orderNumber" property="orderNumber"/>
         <result column="o_orderDate" property="orderDate"/>
+        <result column="o_buyCount" property="buyCount"/>
     </resultMap>
     <insert id="insert" parameterType="com.example.demo.model.order.Order">
-        insert into t_order (o_id, o_userId, o_userChineseName, o_cargoNumber, o_orderNumber, o_orderDate)
-        values (#{id}, #{userId}, #{userChineseName}, #{cargoNumber}, #{orderNumber}, #{orderDate})
+        insert into t_order (o_id, o_userId, o_userChineseName, o_cargoNumber, o_orderNumber, o_orderDate,o_buyCount)
+        values (#{id}, #{userId}, #{userChineseName}, #{cargoNumber}, #{orderNumber}, #{orderDate},#{buyCount})
     </insert>
 
     <!--根据Id查询-->
     <select id="selectById" resultMap="OrderMap" parameterType="java.lang.Long">
         select *
         from t_order
-        where o_id = #{id}
+        where o_id = #{id} order by o_orderDate desc
     </select>
 
     <!--分页查询-->

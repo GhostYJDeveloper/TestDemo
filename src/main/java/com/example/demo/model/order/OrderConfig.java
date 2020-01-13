@@ -18,6 +18,7 @@ public class OrderConfig {
         this.orderDate = order.getOrderDate();
         this.warehouseName=warehouseName;
         this.type=type;
+        this.buyCount = order.getBuyCount();
     }
 
 
@@ -60,6 +61,10 @@ public class OrderConfig {
      * 货物类型
      */
     private WarehouseTypeEnum type;
+    /**
+     * 下单数量
+     */
+    private Integer buyCount;
 
     public long getId() {
         return id;
@@ -123,5 +128,12 @@ public class OrderConfig {
 
     public void setType(WarehouseTypeEnum type) {
         this.type = type;
+    }
+    public Integer getBuyCount() {
+        return buyCount;
+    }
+
+    public void setBuyCount(Integer buyCount) {
+        this.buyCount = buyCount;
     }
 }

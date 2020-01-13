@@ -12,13 +12,14 @@ public class Order {
 
     }
 
-    public Order(long userId,String userChineseName,String cargoNumber,String orderNumber,Date orderDate){
+    public Order(long userId,String userChineseName,String cargoNumber,String orderNumber,Date orderDate,Integer buyCount){
         id= SnowFlake.instant().nextId();
         this.userId=userId;
         this.userChineseName=userChineseName;
         this.cargoNumber=cargoNumber;
         this.orderNumber=orderNumber;
         this.orderDate=orderDate;
+        this.buyCount=buyCount;
     }
 
 
@@ -51,6 +52,10 @@ public class Order {
      * 下单日期
      */
     private Date orderDate;
+    /**
+     * 购买数量
+     */
+    private Integer buyCount;
 
 
     public long getId() {
@@ -99,6 +104,13 @@ public class Order {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+    public Integer getBuyCount() {
+        return buyCount;
+    }
+
+    public void setBuyCount(Integer buyCount) {
+        this.buyCount = buyCount;
     }
 
 }

@@ -37,7 +37,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">下单日期</label>
         <div class="layui-input-block">
-            <input type="text" name="orderDate" id="orderDate" class="layui-input dateTime" lay-verify="required">
+            <input type="text" name="orderDate" id="orderDate" readonly class="layui-input">
         </div>
     </div>
     <br/> <br/> <br/> <br/>
@@ -61,8 +61,9 @@
         // });
         laydate.render({
             elem: '#orderDate',
-            type: 'datetime'
-        });
+            value:new Date()
+
+       });
 
     });
 </script>

@@ -36,6 +36,12 @@
                 <input type="text" name="orderDate" readonly class="layui-input">
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">下单数量</label>
+            <div class="layui-input-inline">
+                <input type="text" name="buyCount" readonly class="layui-input">
+            </div>
+        </div>
     </div>
 </form>
 <script src="${request.contextPath}/js/jquery-3.2.1.min.js"></script>
@@ -57,6 +63,7 @@
                 "userChineseName": data.userChineseName,
                 "cargoNumber": data.cargoNumber,
                 "orderDate": data.orderDate,
+                "buyCount": data.buyCount
             });
         }
     });
