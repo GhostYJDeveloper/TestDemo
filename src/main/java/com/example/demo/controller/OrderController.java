@@ -18,6 +18,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.eclipse.jetty.client.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -66,6 +67,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/order/insertOrder", method = RequestMethod.POST)
+    @Transactional
     public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber, String orderDate
             , String buyCount) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -137,6 +139,7 @@ public class OrderController {
 
     @RequestMapping(value = "/rest/order",method = RequestMethod.DELETE)
     @ResponseBody
+    @Transactional
     public Result deleteById(String id){
         Order order = orderMapper.selectById(Long.parseLong(id));
         Warehouse warehouse = warehouseMapper.selectByNumber(order.getCargoNumber());
@@ -154,6 +157,7 @@ public class OrderController {
 
     @RequestMapping(value = "/rest/order/batch-delete",method = RequestMethod.DELETE)
     @ResponseBody
+    @Transactional
     public Result branchDelete(@RequestBody String requestBody) throws IOException {
         ObjectMapper objectMapper=new ObjectMapper();
         JsonNode jsonNode=null;

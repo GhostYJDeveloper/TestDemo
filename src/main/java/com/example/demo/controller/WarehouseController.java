@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,6 +35,7 @@ public class WarehouseController {
     }
 
     @RequestMapping(value = "/warehouse/insertWarehouse", method = RequestMethod.POST)
+    @Transactional
     public ModelAndView insertWarehouse(String name, String type, String count, String addDate) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(addDate);
@@ -107,6 +109,7 @@ public class WarehouseController {
     }
 
     @RequestMapping(value = "/rest/warehouse/batch-delete",method = RequestMethod.DELETE)
+    @Transactional
     public @ResponseBody Result batchDeleteById(@RequestBody String requestBody) throws IOException {
         ObjectMapper objectMapper=new ObjectMapper();
         JsonNode jsonNode=null;
