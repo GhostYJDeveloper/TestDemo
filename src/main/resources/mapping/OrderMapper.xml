@@ -6,13 +6,14 @@
         <result column="o_userId" property="userId"/>
         <result column="o_userChineseName" property="userChineseName"/>
         <result column="o_cargoNumber" property="cargoNumber"/>
+        <result column="o_cargoName" property="cargoName"/>
         <result column="o_orderNumber" property="orderNumber"/>
         <result column="o_orderDate" property="orderDate"/>
         <result column="o_buyCount" property="buyCount"/>
     </resultMap>
     <insert id="insert" parameterType="com.example.demo.model.order.Order">
-        insert into t_order (o_id, o_userId, o_userChineseName, o_cargoNumber, o_orderNumber, o_orderDate,o_buyCount)
-        values (#{id}, #{userId}, #{userChineseName}, #{cargoNumber}, #{orderNumber}, #{orderDate},#{buyCount})
+        insert into t_order (o_id, o_userId, o_userChineseName, o_cargoNumber,o_cargoName, o_orderNumber, o_orderDate,o_buyCount)
+        values (#{id}, #{userId}, #{userChineseName}, #{cargoNumber},#{cargoName}, #{orderNumber}, #{orderDate},#{buyCount})
     </insert>
 
     <!--根据Id查询-->

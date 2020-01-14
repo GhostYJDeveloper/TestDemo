@@ -64,6 +64,7 @@
                 {field: 'id', title: 'Id', align: 'center'},
                 {field: 'userChineseName', title: '用户名称', align: 'center'},
                 {field: 'cargoNumber', title: '货物编号', align: 'center'},
+                {field: 'cargoName', title: '货物名称', align: 'center'},
                 {field: 'type', title: '货物类别', align: 'center'},
                 {field: 'orderNumber', title: '订单编号', align: 'center'},
                 {field: 'orderDate', title: '下单日期', align: 'center'},

@@ -15,6 +15,7 @@ public class OrderConfig {
         this.userChineseName = order.getUserChineseName();
         this.cargoNumber = order.getCargoNumber();
         this.orderNumber = order.getOrderNumber();
+        this.cargoName = order.getCargoName();
         this.orderDate = order.getOrderDate();
         this.warehouseName=warehouseName;
         this.type=type;
@@ -41,6 +42,19 @@ public class OrderConfig {
      * 货物编号
      */
     private String cargoNumber;
+
+    public String getCargoName() {
+        return cargoName;
+    }
+
+    public void setCargoName(String cargoName) {
+        this.cargoName = cargoName;
+    }
+
+    /**
+     * 货物名称
+     */
+    private String cargoName;
 
     /**
      * 订单编号

@@ -27,6 +27,12 @@
             <input type="text" name="cargoNumber" readonly class="layui-input" value="${number}">
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">货物名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="cargoName" readonly class="layui-input" value="${name}">
+        </div>
+    </div>
     <div class="layui-input-item">
         <label class="layui-form-label">购买的数量</label>
         <div class="layui-input-block">
