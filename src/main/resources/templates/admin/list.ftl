@@ -34,6 +34,9 @@
                     <button class="layui-btn" id="btnAddUser">添加用户</button>
                     <button class="layui-btn" id="btnWarehouserList">仓库列表</button>
                 </div>
+                <div class="layui-inline" style="float:right">
+                    <button class="layui-btn" id="btnReLogin">注销登录</button>
+                </div>
             </div>
         </div>
     </div>
@@ -221,6 +224,9 @@
     });
     $('#btnWarehouserList').on('click', function () {
         location.href = "${request.contextPath}/warehouse/list";
+    });
+    $('#btnReLogin').on('click', function () {
+        location.href = "${request.contextPath}/login";
     });
 
 </script>

@@ -12,35 +12,38 @@
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
-                <div class="layui-inline">
-                    <label class="layui-form-label">订单编号</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="number" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">订单编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="number" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-inline">
-                    <button class="layui-btn" lay-submit lay-filter="lay-search">
-                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                    </button>
-                </div>
-                <div class="layui-inline">
-                    <button class="layui-btn" id="btnWarehouseList">货物列表</button>
-                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit lay-filter="lay-search">
+                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                </button>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" id="btnWarehouseList">货物列表</button>
+            </div>
+            <div class="layui-inline" style="float:right">
+                <button class="layui-btn" id="btnReLogin">注销登录</button>
             </div>
         </div>
     </div>
-    <div class="layui-card-body">
-        <div style="padding-bottom: 10px;">
-            <button class="layui-btn lay-btn-action" data-type="batchDelete">删除</button>
-        </div>
-        <table id="lay-table" lay-filter="lay-table"></table>
-        </table>
-        <script type="text/html" id="table-action">
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i
-                        class="layui-icon layui-icon-delete"></i>删除</a>
-        </script>
+</div>
+<div class="layui-card-body">
+    <div style="padding-bottom: 10px;">
+        <button class="layui-btn lay-btn-action" data-type="batchDelete">删除</button>
     </div>
+    <table id="lay-table" lay-filter="lay-table"></table>
+    </table>
+    <script type="text/html" id="table-action">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i
+                    class="layui-icon layui-icon-delete"></i>删除</a>
+    </script>
+</div>
 </div>
 <script src="${request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${request.contextPath}/layuiadmin/layui/layui.js"></script>
@@ -77,8 +80,8 @@
             if (obj.event === 'detail') {
                 var tr = $(obj.tr);
                 $.ajax({
-                    url: layui.setter.contextPath + '/rest/orderDetail?id='+obj.data.id+"&userChineseName="
-                        +obj.data.userChineseName+"&typeName="+obj.data.type,
+                    url: layui.setter.contextPath + '/rest/orderDetail?id=' + obj.data.id + "&userChineseName="
+                        + obj.data.userChineseName + "&typeName=" + obj.data.type,
                     type: 'GET',
                     dataType: 'JSON',
                     success: function (data) {
@@ -166,6 +169,9 @@
     });
     $('#btnWarehouseList').on('click', function () {
         location.href = "${request.contextPath}/warehouse/list";
+    });
+    $('#btnReLogin').on('click', function () {
+        location.href = "${request.contextPath}/login";
     });
 </script>
 </body>

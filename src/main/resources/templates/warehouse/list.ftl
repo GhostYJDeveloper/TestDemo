@@ -39,6 +39,9 @@
                     <button class="layui-btn" id="btnAddWarehouse">商品入库</button>
                     <button class="layui-btn" id="btnOrderList">订单列表</button>
                 </div>
+                <div class="layui-inline" style="float:right">
+                    <button class="layui-btn" id="btnReLogin">注销登录</button>
+                </div>
             </div>
         </div>
     </div>
@@ -184,7 +187,9 @@
     $('#btnOrderList').on('click', function () {
         location.href = "${request.contextPath}/order/list";
     });
-
+    $('#btnReLogin').on('click', function () {
+        location.href = "${request.contextPath}/login";
+    });
 
     //转换枚举
     function trunEnum(type) {
