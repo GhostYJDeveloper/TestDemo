@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Layui</title>
+    <title>SMM首页</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -23,7 +23,7 @@
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
         <dl class="layui-nav-child">
-            <dd><a href="javascript:;">修改信息</a></dd>
+            <dd><a href="${request.contextPath}/updateUser">修改信息</a></dd>
             <dd><a href="${request.contextPath}/reLogin">注销</a></dd>
         </dl>
     </li>

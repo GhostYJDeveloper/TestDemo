@@ -13,33 +13,32 @@
     <legend>修改个人信息</legend>
 </fieldset>
 
-<form class="layui-form" action="/updateUser" lay-filter="lay-form" method="post">
+<form class="layui-form" action="/updateUser/${user.id}" lay-filter="lay-form" method="post">
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input name="userId" type="hidden" id="userId">
             <input name="username" lay-verify="required" autocomplete="off" placeholder="请输入用户名" class="layui-input"
-                   type="text">
+                   type="text" value="${user.userName}">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
             <input name="password" lay-verify="required" autocomplete="off" placeholder="请输入密码" class="layui-input"
-                   type="password">
+                   value="${user.passWord}">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">中文名</label>
         <div class="layui-input-block">
             <input name="chineseName" lay-verify="required" autocomplete="off" placeholder="请输入中文名" class="layui-input"
-                   type="text">
+                   type="text" value="${user.chineseName}">
         </div>
     </div>
     <div class="layui-inline">
         <label class="layui-form-label">创建时间</label>
         <div class="layui-input-block">
-            <input type="text" name="createTime" id="createTime" class="layui-input dateTime" lay-verify="required">
+            <input type="text" name="createTime" id="createTime" class="layui-input dateTime" lay-verify="required" value="${user.createTime?datetime}">
         </div>
     </div>
     <br/> <br/> <br/> <br/>
@@ -52,34 +51,7 @@
 <script src="${request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${request.contextPath}/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript">
-    layui.config({
-        base: '${request.contextPath}/layuiadmin/'
-    }).extend({
-        index: 'lib/index'
-    }).use(['index', 'table'], function () {
-        var $ = layui.$,
-            form = layui.form,
-            table = layui.table;
-        table.render({
-            elem: '#lay-table',
-            url: layui.setter.contextPath + '/rest/user?id=',
-            cols: [[
-                {type: 'checkbox', fixed: 'left'},
-                {field: 'id', title: 'Id', align: 'center'},
-                {field: 'chineseName', title: '中文名', align: 'center'},
-                {field: 'userName', title: '用户名', align: 'center'},
-                {field: 'createTime', title: '创建时间', align: 'center'},
-                {title: '操作', align: 'center', width: 180, fixed: 'right', toolbar: '#table-action'}
-            ]],
-            text: {none: '无数据'},
-            page: true,
-            loading: true
-        });
-        laydate.render({
-            elem: '#createTime',
-            type: 'datetime'
-        });
-    });
+
 </script>
 
 </body>
