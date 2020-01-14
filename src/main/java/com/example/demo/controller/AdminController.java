@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.kafka.common.security.authenticator.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +34,8 @@ public class AdminController {
 ////        return "admin/login";
 ////    }
 
-    @RequestMapping(value = "reLogin",method = RequestMethod.GET)
-    public ModelAndView ReLogin(HttpSession session){
+    @RequestMapping(value = "reLogin", method = RequestMethod.GET)
+    public ModelAndView ReLogin(HttpSession session) {
         session.removeAttribute("loginToken");
         return new ModelAndView("admin/login");
     }
@@ -49,12 +50,29 @@ public class AdminController {
             return modelAndView;
         }
         session.setAttribute("loginToken", new LoginToken("User", String.valueOf(user.getId())));
-        return new ModelAndView("/admin/list");
+        return new ModelAndView("/admin/index");
     }
 
     @RequestMapping(value = "addUser", method = RequestMethod.GET)
     public ModelAndView addUser() {
         return new ModelAndView("/admin/addUser");
+    }
+
+    @RequestMapping(value = "updateUser", method = RequestMethod.GET)
+    public ModelAndView updateUser(HttpSession session) {
+        LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
+        if (loginToken == null) {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("errorMessage", "请先登录。");
+            modelAndView.setViewName("/admin/error");
+            return modelAndView;
+        } else {
+            User user=userMapper.selectById(254239560869871616L);
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("user",user);
+            modelAndView.setViewName("/admin/updateUser");
+            return modelAndView;
+        }
     }
 
     @RequestMapping(value = "edit", method = RequestMethod.GET)
@@ -105,9 +123,9 @@ public class AdminController {
     @RequestMapping(value = "/rest/user", method = RequestMethod.GET)
     @ResponseBody
     public HashMap getUser(HttpServletRequest request, HttpSession session) {
-        LoginToken loginToken=(LoginToken)session.getAttribute("loginToken");
+        LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
         HashMap<String, Object> map = new HashMap<>();
-        if(loginToken==null)
+        if (loginToken == null)
             return map;
         //分页参数
         int currentIndex = NumberUtils.toInt(request.getParameter("page"), 1);
