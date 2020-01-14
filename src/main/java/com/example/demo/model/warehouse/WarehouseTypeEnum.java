@@ -4,9 +4,10 @@ package com.example.demo.model.warehouse;
  * 货物类别
  */
 public enum WarehouseTypeEnum {
-    SUPPORT(1, "运动类"),
-    FOOD(2, "食品类"),
-    FURNITURE(3, "家具类");
+
+    运动类(1, "SUPPORT"),
+    食品类(2, "FOOD"),
+    家具类(3, "FURNITURE");
 
     // 成员变量
     private Integer code;

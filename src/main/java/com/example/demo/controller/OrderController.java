@@ -43,14 +43,18 @@ public class OrderController {
     @Autowired
     WarehouseMapper warehouseMapper;
 
-    @RequestMapping(value = "/order/add/{number}", method = RequestMethod.GET)
-    public ModelAndView gotoAdd(@PathVariable String number, HttpSession session) {
+    @RequestMapping(value = "/order/add/{id}", method = RequestMethod.GET)
+    public ModelAndView gotoAdd(@PathVariable String id, HttpSession session) {
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
         User user = null;
+        Warehouse warehouse = null;
         if (loginToken != null)
             user = userMapper.selectById(Long.parseLong(loginToken.getLoginId()));
+        if(id != null)
+            warehouse = warehouseMapper.selectById(Long.parseLong(id));
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("number", number);
+        modelAndView.addObject("number", warehouse.getNumber());
+        modelAndView.addObject("name", warehouse.getName());
         if (user != null) {
             modelAndView.addObject("chineseName", user.getChineseName());
             modelAndView.addObject("userId", String.valueOf(user.getId()));
@@ -79,13 +83,13 @@ public class OrderController {
 
     @RequestMapping(value = "/order/insertOrder", method = RequestMethod.POST)
     @Transactional
-    public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber, String orderDate
+    public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber, String cargoName,String orderDate
             , String buyCount) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(orderDate);
         //生成编号
         String orderNumber = CreateNumber.make();
-        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, orderNumber, date, Integer.parseInt(buyCount));
+        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, cargoName,orderNumber, date, Integer.parseInt(buyCount));
         orderMapper.insert(order);
 
         //减库存

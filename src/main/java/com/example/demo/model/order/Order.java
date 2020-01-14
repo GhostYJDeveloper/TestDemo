@@ -12,7 +12,7 @@ public class Order {
 
     }
 
-    public Order(long userId,String userChineseName,String cargoNumber,String orderNumber,Date orderDate,Integer buyCount){
+    public Order(long userId,String userChineseName,String cargoNumber,String cargoName,String orderNumber,Date orderDate,Integer buyCount){
         id= SnowFlake.instant().nextId();
         this.userId=userId;
         this.userChineseName=userChineseName;
@@ -20,6 +20,7 @@ public class Order {
         this.orderNumber=orderNumber;
         this.orderDate=orderDate;
         this.buyCount=buyCount;
+        this.cargoName=cargoName;
     }
 
 
@@ -42,6 +43,10 @@ public class Order {
      * 货物编号
      */
     private String cargoNumber;
+    /**
+     * 货物名称
+     */
+    private String cargoName;
 
     /**
      * 订单编号
@@ -111,6 +116,13 @@ public class Order {
 
     public void setBuyCount(Integer buyCount) {
         this.buyCount = buyCount;
+    }
+    public String getCargoName() {
+        return cargoName;
+    }
+
+    public void setCargoName(String cargoName) {
+        this.cargoName = cargoName;
     }
 
 }

@@ -31,6 +31,12 @@
             </div>
         </div>
         <div class="layui-inline">
+            <label class="layui-form-label">货物名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="cargoName" readonly class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
             <label class="layui-form-label">下单日期</label>
             <div class="layui-input-inline">
                 <input type="text" name="orderDate" readonly class="layui-input">
@@ -62,6 +68,7 @@
                 "orderNumber": data.orderNumber,
                 "userChineseName": data.userChineseName,
                 "cargoNumber": data.cargoNumber,
+                "cargoName": data.cargoName,
                 "orderDate": data.orderDate,
                 "buyCount": data.buyCount
             });

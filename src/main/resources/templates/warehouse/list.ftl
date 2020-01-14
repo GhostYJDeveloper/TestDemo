@@ -133,7 +133,7 @@
                     });
                 });
             } else if (obj.event === "order") {
-                location.href = "${request.contextPath}/order/add/"+obj.data.number;
+                location.href = "${request.contextPath}/order/add/"+obj.data.id;
             }
         });
 
