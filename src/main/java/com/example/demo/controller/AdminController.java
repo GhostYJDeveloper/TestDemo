@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.kafka.common.security.authenticator.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -49,12 +50,25 @@ public class AdminController {
             return modelAndView;
         }
         session.setAttribute("loginToken", new LoginToken("User", String.valueOf(user.getId())));
-        return new ModelAndView("/admin/list");
+        return new ModelAndView("/admin/index");
     }
 
     @RequestMapping(value = "addUser", method = RequestMethod.GET)
     public ModelAndView addUser() {
         return new ModelAndView("/admin/addUser");
+    }
+
+    @RequestMapping(value = "updateUser", method = RequestMethod.GET)
+    public ModelAndView updateUser(HttpSession session) {
+        LoginToken loginToken=(LoginToken)session.getAttribute("loginToken");
+        if(loginToken==null)
+        {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("errorMessage", "请先登录。");
+            modelAndView.setViewName("/admin/error");
+            return modelAndView;
+        }
+        return new ModelAndView("/admin/updateUser?id="+loginToken.getLoginId());
     }
 
     @RequestMapping(value = "edit", method = RequestMethod.GET)
