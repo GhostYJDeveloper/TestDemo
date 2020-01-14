@@ -18,7 +18,9 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.eclipse.jetty.client.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,6 +34,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
+@Transactional(rollbackFor = Exception.class)
 public class OrderController {
     @Autowired
     UserMapper userMapper;
@@ -62,7 +65,15 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/order/list", method = RequestMethod.GET)
-    public ModelAndView gotoList() {
+    public ModelAndView gotoList(HttpSession session) {
+        LoginToken loginToken=(LoginToken)session.getAttribute("loginToken");
+        if(loginToken==null)
+        {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("errorMessage", "请先登录。");
+            modelAndView.setViewName("/admin/error");
+            return modelAndView;
+        }
         return new ModelAndView("/order/list");
     }
 
@@ -74,7 +85,7 @@ public class OrderController {
         Date date = format.parse(orderDate);
         //生成编号
         String orderNumber = CreateNumber.make();
-        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, orderNumber, date,Integer.parseInt(buyCount));
+        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, orderNumber, date, Integer.parseInt(buyCount));
         orderMapper.insert(order);
 
         //减库存
@@ -112,8 +123,8 @@ public class OrderController {
             //取满足编号的第一个仓库数据
             Optional<Warehouse> warehouseOptional = warehouseList.stream()
                     .filter(s -> s.getNumber().equals(item.getCargoNumber())).findFirst();
-            if(warehouseOptional.isPresent()) {
-                Warehouse warehouse=warehouseOptional.get();
+            if (warehouseOptional.isPresent()) {
+                Warehouse warehouse = warehouseOptional.get();
                 orderConfigList.add(new OrderConfig(item, warehouse.getName(), warehouse.getType()));
             }
         }
@@ -126,47 +137,47 @@ public class OrderController {
         return map;
     }
 
-    @RequestMapping(value = "/rest/orderDetail",method = RequestMethod.GET)
+    @RequestMapping(value = "/rest/orderDetail", method = RequestMethod.GET)
     @ResponseBody
-    public Result detail(String id,String userChineseName,String typeName){
-        Order order=orderMapper.selectById(Long.parseLong(id));
-        OrderConfig orderConfig=new OrderConfig(order,userChineseName, WarehouseTypeEnum.getWarehouseType(typeName));
-        if(orderConfig!=null)
+    public Result detail(String id, String userChineseName, String typeName) {
+        Order order = orderMapper.selectById(Long.parseLong(id));
+        OrderConfig orderConfig = new OrderConfig(order, userChineseName, WarehouseTypeEnum.getWarehouseType(typeName));
+        if (orderConfig != null)
             return Result.sucessData(orderConfig);
         else
-            return Result.error(1,"没有找到id为"+id+"的订单信息");
+            return Result.error(1, "没有找到id为" + id + "的订单信息");
     }
 
-    @RequestMapping(value = "/rest/order",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/rest/order", method = RequestMethod.DELETE)
     @ResponseBody
-    @Transactional
-    public Result deleteById(String id){
+    @Transactional(rollbackFor = Exception.class)
+    public Result deleteById(String id) {
         Order order = orderMapper.selectById(Long.parseLong(id));
-        Warehouse warehouse = warehouseMapper.selectByNumber(order.getCargoNumber());
-        warehouse.setCount(warehouse.getCount()+order.getBuyCount());
-        warehouseMapper.update(warehouse);
-        int flag = orderMapper.deleteById(Long.parseLong(id));
 
-        if(flag>0){
-            return  Result.success("删除成功");
-        }
-       else{
-            return  Result.error(1,"删除失败");
-        }
+        //加库存
+        Warehouse warehouse = warehouseMapper.selectByNumber(order.getCargoNumber());
+        warehouse.setCount(warehouse.getCount() + order.getBuyCount());
+        warehouseMapper.update(warehouse);
+
+        int flag = orderMapper.deleteById(Long.parseLong(id));
+        if (flag > 0)
+            return Result.success("删除成功");
+        else
+            return Result.error(1, "删除失败");
     }
 
-    @RequestMapping(value = "/rest/order/batch-delete",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/rest/order/batch-delete", method = RequestMethod.DELETE)
     @ResponseBody
     @Transactional
     public Result branchDelete(@RequestBody String requestBody) throws IOException {
-        ObjectMapper objectMapper=new ObjectMapper();
-        JsonNode jsonNode=null;
-        jsonNode=objectMapper.readTree(requestBody);
-        List<Long> idList=new ArrayList<>();
-        Iterator<JsonNode> el=jsonNode.elements();
-        while (el.hasNext()){
-            JsonNode element=el.next();
-            Long id=element.get("id").asLong();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        jsonNode = objectMapper.readTree(requestBody);
+        List<Long> idList = new ArrayList<>();
+        Iterator<JsonNode> el = jsonNode.elements();
+        while (el.hasNext()) {
+            JsonNode element = el.next();
+            Long id = element.get("id").asLong();
             idList.add(id);
         }
         orderMapper.deleteBatch(idList);

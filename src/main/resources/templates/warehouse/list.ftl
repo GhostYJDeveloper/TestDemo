@@ -188,7 +188,7 @@
         location.href = "${request.contextPath}/order/list";
     });
     $('#btnReLogin').on('click', function () {
-        location.href = "${request.contextPath}/login";
+        location.href = "${request.contextPath}/reLogin";
     });
 
     //转换枚举

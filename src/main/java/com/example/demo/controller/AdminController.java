@@ -33,6 +33,11 @@ public class AdminController {
 ////        return "admin/login";
 ////    }
 
+    @RequestMapping(value = "reLogin",method = RequestMethod.GET)
+    public ModelAndView ReLogin(HttpSession session){
+        session.removeAttribute("loginToken");
+        return new ModelAndView("admin/login");
+    }
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public ModelAndView index(String userName, String password, HttpSession session) {
@@ -99,8 +104,11 @@ public class AdminController {
 
     @RequestMapping(value = "/rest/user", method = RequestMethod.GET)
     @ResponseBody
-    public HashMap getUser(HttpServletRequest request) {
+    public HashMap getUser(HttpServletRequest request, HttpSession session) {
+        LoginToken loginToken=(LoginToken)session.getAttribute("loginToken");
         HashMap<String, Object> map = new HashMap<>();
+        if(loginToken==null)
+            return map;
         //分页参数
         int currentIndex = NumberUtils.toInt(request.getParameter("page"), 1);
         int pageSize = NumberUtils.toInt(request.getParameter("limit"), 10);

@@ -5,12 +5,15 @@ import com.example.demo.model.warehouse.WarehouseTypeEnum;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Mapper
+@Transactional(rollbackFor = Exception.class)
 public interface WarehouseMapper {
     /**
      * 插入

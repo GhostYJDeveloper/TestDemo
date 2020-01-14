@@ -226,7 +226,7 @@
         location.href = "${request.contextPath}/warehouse/list";
     });
     $('#btnReLogin').on('click', function () {
-        location.href = "${request.contextPath}/login";
+        location.href = "${request.contextPath}/reLogin";
     });
 
 </script>
