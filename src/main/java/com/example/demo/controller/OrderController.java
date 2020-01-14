@@ -92,13 +92,13 @@ public class OrderController {
 
     @RequestMapping(value = "/order/insertOrder", method = RequestMethod.POST)
     @Transactional
-    public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber, String orderDate
+    public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber,String cargoName, String orderDate
             , String buyCount) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(orderDate);
         //生成编号
         String orderNumber = CreateNumber.make();
-        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, orderNumber, date, Integer.parseInt(buyCount));
+        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber,cargoName, orderNumber, date, Integer.parseInt(buyCount));
         orderMapper.insert(order);
 
         //减库存
