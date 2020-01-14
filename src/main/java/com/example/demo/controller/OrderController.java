@@ -4,6 +4,7 @@ import com.example.demo.common.Result;
 import com.example.demo.domain.mapper.UserMapper;
 import com.example.demo.domain.user.User;
 import com.example.demo.model.login.LoginToken;
+import com.example.demo.model.mapper.LoginTokenMapper;
 import com.example.demo.model.mapper.OrderMapper;
 import com.example.demo.model.mapper.WarehouseMapper;
 import com.example.demo.model.order.Order;
@@ -42,13 +43,15 @@ public class OrderController {
     OrderMapper orderMapper;
     @Autowired
     WarehouseMapper warehouseMapper;
+    @Autowired
+    LoginTokenMapper loginTokenMapper;
 
     @RequestMapping(value = "/order/add/{number}", method = RequestMethod.GET)
     public ModelAndView gotoAdd(@PathVariable String number, HttpSession session) {
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
         User user = null;
         if (loginToken != null)
-            user = userMapper.selectById(Long.parseLong(loginToken.getLoginId()));
+            user = userMapper.selectById(loginToken.getLoginId());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("number", number);
         if (user != null) {
@@ -66,13 +69,23 @@ public class OrderController {
 
     @RequestMapping(value = "/order/list", method = RequestMethod.GET)
     public ModelAndView gotoList(HttpSession session) {
-        LoginToken loginToken=(LoginToken)session.getAttribute("loginToken");
-        if(loginToken==null)
-        {
+        //先通过Session判断令牌有无失效
+        LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
+        if (loginToken == null) {
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("errorMessage", "请先登录。");
+            modelAndView.addObject("errorMessage", "令牌失效,请先登录。");
             modelAndView.setViewName("/admin/error");
             return modelAndView;
+        }
+        //如果Session没有失效，再去表里查看令牌有没有被删除
+        else {
+            loginToken = loginTokenMapper.selectById(loginToken.getId());
+            if (loginToken == null) {
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.addObject("errorMessage", "该用户的令牌不存在,请先登录。");
+                modelAndView.setViewName("/admin/error");
+                return modelAndView;
+            }
         }
         return new ModelAndView("/order/list");
     }

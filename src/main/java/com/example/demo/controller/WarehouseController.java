@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.Result;
+import com.example.demo.model.login.LoginToken;
+import com.example.demo.model.mapper.LoginTokenMapper;
 import com.example.demo.model.warehouse.CreateNumber;
 import com.example.demo.model.warehouse.Warehouse;
 import com.example.demo.model.mapper.WarehouseMapper;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -28,6 +31,8 @@ import java.util.*;
 public class WarehouseController {
     @Autowired
     private WarehouseMapper warehouseMapper;
+    @Autowired
+    private LoginTokenMapper loginTokenMapper;
 
     @RequestMapping(value = "/warehouse/manageWarehouse", method = RequestMethod.GET)
     public String manageWarehouse() {
@@ -53,7 +58,25 @@ public class WarehouseController {
     }
 
     @RequestMapping(value = "/warehouse/list",method = RequestMethod.GET)
-    public ModelAndView gotoList(){
+    public ModelAndView gotoList(HttpSession session){
+        //先通过Session判断令牌有无失效
+        LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
+        if (loginToken == null) {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("errorMessage", "令牌失效,请先登录。");
+            modelAndView.setViewName("/admin/error");
+            return modelAndView;
+        }
+        //如果Session没有失效，再去表里查看令牌有没有被删除
+        else {
+            loginToken = loginTokenMapper.selectById(loginToken.getId());
+            if (loginToken == null) {
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.addObject("errorMessage", "该用户的令牌不存在,请先登录。");
+                modelAndView.setViewName("/admin/error");
+                return modelAndView;
+            }
+        }
         return new ModelAndView("/warehouse/list");
     }
 

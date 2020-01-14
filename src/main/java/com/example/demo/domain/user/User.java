@@ -13,7 +13,8 @@ public class User implements Serializable {
     private String passWord;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
     public User() {
 
     }
@@ -34,12 +35,13 @@ public class User implements Serializable {
      * @param passWord
      * @param createTime
      */
-    public User(Long id,String userName,String chineseName,  String passWord, Date createTime) {
+    public User(Long id,String userName,String chineseName,  String passWord, Date createTime,Date updateTime) {
         this.id =id;
         this.chineseName = chineseName;
         this.userName = userName;
         this.passWord = passWord;
         this.createTime = createTime;
+        this.updateTime=updateTime;
     }
 
     public long getId() {
@@ -80,6 +82,14 @@ public class User implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override

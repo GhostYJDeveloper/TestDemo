@@ -1,14 +1,18 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.Result;
+import com.example.demo.common.SnowFlake;
 import com.example.demo.domain.mapper.UserMapper;
 import com.example.demo.domain.user.User;
 import com.example.demo.model.login.LoginToken;
+import com.example.demo.model.login.LoginTypeEnum;
+import com.example.demo.model.mapper.LoginTokenMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.kafka.common.security.authenticator.Login;
+import org.apache.kafka.common.security.authenticator.LoginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +31,8 @@ public class AdminController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private LoginTokenMapper loginTokenMapper;
 
     //转为ViewConfig全局配置类跳转12
 //    @RequestMapping(value = "login", method = RequestMethod.GET)
@@ -49,7 +55,11 @@ public class AdminController {
             modelAndView.setViewName("/admin/error");
             return modelAndView;
         }
-        session.setAttribute("loginToken", new LoginToken("User", String.valueOf(user.getId())));
+
+        //插入令牌
+        LoginToken loginToken = new LoginToken(LoginTypeEnum.普通用户, user.getId(), new Date());
+        loginTokenMapper.insert(loginToken);
+        session.setAttribute("loginToken", loginToken);
         return new ModelAndView("/admin/index");
     }
 
@@ -67,9 +77,9 @@ public class AdminController {
             modelAndView.setViewName("/admin/error");
             return modelAndView;
         } else {
-            User user=userMapper.selectById(254239560869871616L);
+            User user = userMapper.selectById(254239560869871616L);
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("user",user);
+            modelAndView.addObject("user", user);
             modelAndView.setViewName("/admin/updateUser");
             return modelAndView;
         }
@@ -99,24 +109,20 @@ public class AdminController {
         return new ModelAndView("/admin/list");
     }
 
-    @RequestMapping(value = "updateUser/{id}", method = RequestMethod.PUT)
-    public @ResponseBody
-    Result updateUser(@PathVariable String id, String username, String password, String chineseName, String createTime) throws ParseException {
+    @RequestMapping(value = "updateUser/{id}", method = RequestMethod.GET)
+    public
+    ModelAndView updateUser(@PathVariable String id, String username, String password, String chineseName, String updateTime) throws ParseException {
         User user = userMapper.selectById(Long.parseLong(id));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        Date date = format.parse(createTime);
+        Date date = format.parse(updateTime);
         if (user != null) {
             user.setUserName(username);
             user.setPassWord(password);
             user.setChineseName(chineseName);
-            user.setCreateTime(date);
-            int flag = userMapper.update(user);
-            if (flag > 0)
-                return Result.success("更新成功.");
-            else
-                return Result.error(1, "更新失败.");
+            user.setUpdateTime(date);
+            userMapper.update(user);
         }
-        return Result.error(1, "更新失败.");
+        return new ModelAndView("/admin/list");
     }
 
 

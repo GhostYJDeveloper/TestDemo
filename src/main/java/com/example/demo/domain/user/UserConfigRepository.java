@@ -116,7 +116,8 @@ public class UserConfigRepository implements IUserConfigRepository {
                 sqlRowSet.getString("u_userName"),
                 sqlRowSet.getString("u_chineseName"),
                 sqlRowSet.getString("u_passWord"),
-                sqlRowSet.getTimestamp("u_createTime"));
+                sqlRowSet.getTimestamp("u_createTime"),
+                sqlRowSet.getTimestamp("u_updateTime"));
     }
 
     /**
@@ -130,7 +131,7 @@ public class UserConfigRepository implements IUserConfigRepository {
         Map map = jdbcTemplate.queryForMap("select * from t_user where u_id=? order by u_id limit 1;", id);
         try {
             return new User((Long) map.get("u_id"), (String) map.get("u_chineseName"), (String) map.get("u_userName")
-                    , (String) map.get("u_passWord"), (Date) map.get("u_createTime"));
+                    , (String) map.get("u_passWord"), (Date) map.get("u_createTime"), (Date) map.get("u_updateTime"));
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

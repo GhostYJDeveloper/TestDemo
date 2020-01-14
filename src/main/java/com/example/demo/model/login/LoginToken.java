@@ -1,60 +1,97 @@
 package com.example.demo.model.login;
 
 import com.example.demo.common.SnowFlake;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 
 /**
  * 登录类
  */
 public class LoginToken {
-    public LoginToken(){
+    public LoginToken() {
 
     }
 
-    public LoginToken(String LoginType,String LoginId)
-    {
-        Id = SnowFlake.instant().nextId();
-        this.LoginType=LoginType;
-        this.LoginId=LoginId;
+    /**
+     * 插入
+     *
+     * @param loginType
+     * @param loginId
+     * @param recordTime
+     */
+    public LoginToken(LoginTypeEnum loginType, Long loginId,Date recordTime) {
+        this.id = SnowFlake.instant().nextId();
+        this.loginType = loginType;
+        this.loginId = loginId;
+        this.recordTime=recordTime;
+    }
+
+    /**
+     * 从仓储还原
+     *
+     * @param id
+     * @param loginType
+     * @param loginId
+     * @param recordTime
+     */
+    public LoginToken(long id, LoginTypeEnum loginType, Long loginId,Date recordTime) {
+        this.id = id;
+        this.loginType = loginType;
+        this.loginId = loginId;
+        this.recordTime=recordTime;
     }
 
     /**
      * Id
      */
-    public Long Id;
+    public Long id;
 
     /// <summary>
     /// 登录用户类型
     /// </summary>
-    public String LoginType;
+    public LoginTypeEnum loginType;
 
     /// <summary>
     /// 登录用户Id
     /// </summary>
-    public String LoginId;
+    public Long loginId;
+
+    /// <summary>
+    /// 提交日期
+    /// </summary>
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date recordTime;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
-    public String getLoginType() {
-        return LoginType;
+    public LoginTypeEnum getLoginType() {
+        return loginType;
     }
 
-    public void setLoginType(String loginType) {
-        LoginType = loginType;
+    public void setLoginType(LoginTypeEnum loginType) {
+        this.loginType = loginType;
     }
 
-    public String getLoginId() {
-        return LoginId;
+    public Long getLoginId() {
+        return loginId;
     }
 
-    public void setLoginId(String loginId) {
-        LoginId = loginId;
+    public void setLoginId(Long loginId) {
+        this.loginId = loginId;
     }
 
+    public Date getRecordTime() {
+        return recordTime;
+    }
 
+    public void setRecordTime(Date recordTime) {
+        this.recordTime = recordTime;
+    }
 }
