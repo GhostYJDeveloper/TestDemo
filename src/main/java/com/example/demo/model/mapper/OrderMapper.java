@@ -23,6 +23,13 @@ public interface OrderMapper {
     int insert(Order order);
 
     /**
+     * 更新
+     * @param order
+     * @return
+     */
+    int update(Order order);
+
+    /**
      * 删除
      * @param id
      */
@@ -53,4 +60,11 @@ public interface OrderMapper {
      * @return
      */
     int selectCount();
+
+    /**
+     * 根据下单用户Id查询
+     * @param  userId
+     * @return
+     */
+    List<Order> selectByUserId(long userId);
 }

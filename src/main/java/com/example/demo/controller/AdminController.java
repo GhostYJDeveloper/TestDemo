@@ -9,6 +9,7 @@ import com.example.demo.model.login.LoginTypeEnum;
 import com.example.demo.model.mapper.LoginTokenMapper;
 import com.example.demo.model.mapper.OrderMapper;
 import com.example.demo.model.mapper.WarehouseMapper;
+import com.example.demo.model.order.Order;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -136,6 +137,13 @@ public class AdminController {
             user.setChineseName(chineseName);
             user.setUpdateTime(date);
             userMapper.update(user);
+        }
+
+        //更新订单表中下单人员的中文名
+        List<Order> orderList=orderMapper.selectByUserId(user.getId());
+        for (Order order : orderList) {
+            order.setUserChineseName(user.getChineseName());
+            orderMapper.update(order);
         }
         return new ModelAndView("/admin/list");
     }
