@@ -71,8 +71,8 @@ public class AdminController {
         loginTokenMapper.insert(loginToken);
         session.setAttribute("loginToken", loginToken);
 
-        Integer warehouseCount=warehouseMapper.selectCount();
-        Integer orderCount=orderMapper.selectCount();
+        Integer warehouseCount = warehouseMapper.selectCount();
+        Integer orderCount = orderMapper.selectCount();
         modelAndView.addObject("warehouseCount", warehouseCount);
         modelAndView.addObject("orderCount", orderCount);
         modelAndView.setViewName("/admin/index");
@@ -116,7 +116,7 @@ public class AdminController {
         return new ModelAndView("/admin/detail");
     }
 
-    @RequestMapping(value = "insertUser", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "insertUser", method = RequestMethod.POST)
     public ModelAndView insertUser(String username, String password, String chineseName, String createTime) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(createTime);
@@ -125,9 +125,8 @@ public class AdminController {
         return new ModelAndView("/admin/list");
     }
 
-    @RequestMapping(value = "updateUser", method = {RequestMethod.POST,RequestMethod.GET})
-    public
-    ModelAndView updateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
+    @RequestMapping(value = "updateUser", method = RequestMethod.POST)
+    public ModelAndView updateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
         User user = userMapper.selectById(Long.parseLong(id));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(updateTime);
@@ -140,7 +139,7 @@ public class AdminController {
         }
 
         //更新订单表中下单人员的中文名
-        List<Order> orderList=orderMapper.selectByUserId(user.getId());
+        List<Order> orderList = orderMapper.selectByUserId(user.getId());
         for (Order order : orderList) {
             order.setUserChineseName(user.getChineseName());
             orderMapper.update(order);
