@@ -126,9 +126,9 @@ public class OrderController {
         map.put("pageSize", currentIndex * pageSize);
 
         //查询条件
-        String number = request.getParameter("number");
-        if (!StringUtils.isBlank(number))
-            map.put("number", number);
+        String orderNumber = request.getParameter("orderNumber");
+        if (!StringUtils.isBlank(orderNumber))
+            map.put("orderNumber", orderNumber);
 
         List<Order> list = orderMapper.selectByPage(map);
         int count = orderMapper.selectCount();

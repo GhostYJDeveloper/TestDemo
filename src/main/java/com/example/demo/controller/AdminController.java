@@ -49,6 +49,11 @@ public class AdminController {
 ////    public String login() {
 ////        return "admin/login";
 ////    }
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public ModelAndView Login(HttpSession session) {
+        session.removeAttribute("loginToken");
+        return new ModelAndView("admin/login");
+    }
 
     @RequestMapping(value = "reLogin", method = RequestMethod.GET)
     public ModelAndView ReLogin(HttpSession session) {
@@ -56,44 +61,49 @@ public class AdminController {
         return new ModelAndView("admin/login");
     }
 
-    @RequestMapping(value = "index",method = RequestMethod.POST)
-    public ModelAndView index(String userName,String password, HttpSession session) {
+    @RequestMapping(value = "index", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView index(String userName, String password, HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
-        User user = userMapper.selectByUserName(userName);
+        User user = null;
+        //登录进来后，页面url停留在index时校验令牌有无失效
+        LoginToken currentLoginToken = (LoginToken) session.getAttribute("loginToken");
+        if (currentLoginToken != null) {
+            user=userMapper.selectById(currentLoginToken.getLoginId());
+            modelAndView.addObject("userChineseName", user.getChineseName());
+            modelAndView.setViewName("/admin/index");
+            return modelAndView;
+        }
+
+        //登录时判断,输入用户名密码判断
+        user = userMapper.selectByUserName(userName);
         if (user == null || !password.equals(user.getPassWord())) {
             modelAndView.addObject("errorMessage", "该用户不存在或者密码错误");
             modelAndView.setViewName("/admin/error");
             return modelAndView;
         }
-
-        //有旧令牌先删除，插入新令牌,设置令牌的Session
-        loginTokenMapper.deleteByLoginId(user.getId());
-        LoginToken loginToken = new LoginToken(LoginTypeEnum.普通用户, user.getId(), new Date());
-        loginTokenMapper.insert(loginToken);
-        session.setAttribute("loginToken", loginToken);
-
-        Integer warehouseCount = warehouseMapper.selectCount();
-        Integer orderCount = orderMapper.selectCount();
-        modelAndView.addObject("userChineseName", user.getChineseName());
-        modelAndView.addObject("warehouseCount", warehouseCount);
-        modelAndView.addObject("orderCount", orderCount);
-        modelAndView.setViewName("/admin/index");
-        return modelAndView;
+        else {
+            //有旧令牌先删除，插入新令牌,设置令牌的Session
+            loginTokenMapper.deleteByLoginId(user.getId());
+            LoginToken loginToken = new LoginToken(LoginTypeEnum.普通用户, user.getId(), new Date());
+            loginTokenMapper.insert(loginToken);
+            session.setAttribute("loginToken", loginToken);
+            modelAndView.addObject("userChineseName", user.getChineseName());
+            modelAndView.setViewName("/admin/index");
+            return modelAndView;
+        }
     }
 
-    @RequestMapping(value = "goIndex",method = RequestMethod.GET)
-    public ModelAndView goIndex(HttpSession session){
+    @RequestMapping(value = "goIndex", method = RequestMethod.GET)
+    public ModelAndView goIndex(HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
 
-        LoginToken loginToken=(LoginToken)session.getAttribute("loginToken");
-        if(loginToken==null)
-        {
+        LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
+        if (loginToken == null) {
             modelAndView.addObject("errorMessage", "该用户不存在或者密码错误");
             modelAndView.setViewName("/admin/error");
             return modelAndView;
-        }
-        else {
-            User user=userMapper.selectById(loginToken.getLoginId());
+        } else {
+            User user = userMapper.selectById(loginToken.getLoginId());
             modelAndView.addObject("userChineseName", user.getChineseName());
             modelAndView.setViewName("/admin/index");
             return modelAndView;
@@ -190,8 +200,8 @@ public class AdminController {
                 orderMapper.update(order);
             }
             return Result.success("成功");
-        }catch (Exception ex){
-            return Result.error(1,ex.getMessage());
+        } catch (Exception ex) {
+            return Result.error(1, ex.getMessage());
         }
     }
 

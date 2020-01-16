@@ -14,6 +14,9 @@
         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
             <div class="layui-form-item">
                 <div class="layui-inline">
+                    <button class="layui-btn lay-btn-action" data-type="batchDelete">删除</button>
+                </div>
+                <div class="layui-inline">
                     <label class="layui-form-label">货物名称</label>
                     <div class="layui-input-block">
                         <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
@@ -35,20 +38,10 @@
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
-                <div class="layui-inline">
-                    <button class="layui-btn" id="btnAddWarehouse">商品入库</button>
-                    <button class="layui-btn" id="btnOrderList">订单列表</button>
-                </div>
-                <div class="layui-inline" style="float:right">
-                    <button class="layui-btn" id="btnIndex">返回首页</button>
-                </div>
             </div>
         </div>
     </div>
     <div class="layui-card-body">
-        <div style="padding-bottom: 10px;">
-            <button class="layui-btn lay-btn-action" data-type="batchDelete">删除</button>
-        </div>
         <table id="lay-table" lay-filter="lay-table"></table>
         </table>
         <script type="text/html" id="table-action">
@@ -180,15 +173,6 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-    });
-    $('#btnAddWarehouse').on('click', function () {
-        location.href = "${request.contextPath}/warehouse/add";
-    });
-    $('#btnOrderList').on('click', function () {
-        location.href = "${request.contextPath}/order/list";
-    });
-    $('#btnIndex').on('click', function () {
-        location.href = "${request.contextPath}/goIndex";
     });
 
     //转换枚举
