@@ -13,11 +13,11 @@
     <legend>修改用户</legend>
 </fieldset>
 
-<form class="layui-form" lay-filter="lay-form" method="get">
+<form class="layui-form" lay-filter="lay-form" method="post">
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input name="userId" type="hidden" id="userId">
+            <input name="id" type="hidden" id="id">
             <input name="username" lay-verify="required" autocomplete="off" placeholder="请输入用户名" class="layui-input"
                    type="text">
         </div>
@@ -37,9 +37,9 @@
         </div>
     </div>
     <div class="layui-inline">
-        <label class="layui-form-label">创建时间</label>
+        <label class="layui-form-label">修改时间</label>
         <div class="layui-input-block">
-            <input type="text" name="createTime" id="createTime" class="layui-input dateTime" lay-verify="required">
+            <input type="text" name="updateTime" id="updateTime" class="layui-input dateTime" lay-verify="required">
         </div>
     </div>
     <br/><br/><br/><br/>
@@ -61,8 +61,8 @@
         //     return false;
         // });
         laydate.render({
-            elem: '#createTime',
-            type: 'datetime'
+            elem: '#updateTime',
+            value:new Date()
         });
 
     });
@@ -80,6 +80,7 @@
         if (data != undefined) {
             //console.log(data);
             form.val("lay-form", {
+                "id":data.id,
                 "username": data.userName,
                 "password": data.passWord,
                 "chineseName": data.chineseName,

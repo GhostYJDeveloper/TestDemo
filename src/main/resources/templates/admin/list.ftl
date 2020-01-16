@@ -122,22 +122,19 @@
                                 yes: function (index, layero) {
                                     var iframeWindow = window['layui-layer-iframe' + index],
                                         submit = layero.find('iframe').contents().find('#lay-submit');
-
                                     //监听提交
                                     iframeWindow.layui.form.on('submit(lay-submit)', function (data) {
                                         $.ajax({
-                                            url: layui.setter.contextPath + '/updateUser/'+obj.data.id,
-                                            type: 'PUT',
+                                            url: layui.setter.contextPath + '/windowUpdateUser',
+                                            type: 'POST',
                                             dataType: 'JSON',
                                             data:data.field,
                                             success: function (data) {
-                                                if (data.success) {
-                                                    table.reload('lay-table');
-                                                    layer.close(index);
-                                                }
-                                                else {
-                                                    layer.msg(data.message);
-                                                }
+                                                table.reload('lay-table');
+                                                layer.close(index);
+                                            },
+                                            error:function(data){
+                                                alert(data.responseText);
                                             }
                                         });
                                     });

@@ -149,6 +149,33 @@ public class AdminController {
         return new ModelAndView("/admin/list");
     }
 
+    @RequestMapping(value = "windowUpdateUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Result windowUpdateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
+        try {
+            User user = userMapper.selectById(Long.parseLong(id));
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date date = format.parse(updateTime);
+            if (user != null) {
+                user.setUserName(username);
+                user.setPassWord(password);
+                user.setChineseName(chineseName);
+                user.setUpdateTime(date);
+                userMapper.update(user);
+            }
+
+            //更新订单表中下单人员的中文名
+            List<Order> orderList = orderMapper.selectByUserId(user.getId());
+            for (Order order : orderList) {
+                order.setUserChineseName(user.getChineseName());
+                orderMapper.update(order);
+            }
+            return Result.success("成功");
+        }catch (Exception ex){
+            return Result.error(1,ex.getMessage());
+        }
+    }
+
 
     @RequestMapping(value = "/rest/user", method = RequestMethod.GET)
     @ResponseBody
