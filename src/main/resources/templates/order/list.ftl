@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="${request.contextPath}/layuiadmin/layui/css/layui.css">
 </head>
 <body>
-<div class="layui-fluid">
+<div class="layui-fluid" id="divRun">
     <div class="layui-card">
         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
             <div class="layui-inline">
@@ -33,7 +33,7 @@
     </div>
 </div>
 <div class="layui-card-body">
-    <div style="padding-bottom: 10px;">
+    <div style="padding-bottom: 10px;" id="divDelete">
         <button class="layui-btn lay-btn-action" data-type="batchDelete">删除</button>
     </div>
     <table id="lay-table" lay-filter="lay-table"></table>

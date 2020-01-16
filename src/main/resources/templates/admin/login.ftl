@@ -34,7 +34,7 @@
 <div class="login layui-bg-cyan" style="width: 300px;height: 200px;">
     <h1>活动管理后台</h1>
     <div class="layui-bg-blue"></div>
-    <form class="layui-form" action="index" method="get">
+    <form class="layui-form" action="index" method="post">
         <div class="layui-form-item">
             <input class="layui-input" name="userName" placeholder="用户名" lay-verify="required" type="text"
                    autocomplete="off">

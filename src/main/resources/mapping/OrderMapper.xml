@@ -16,6 +16,19 @@
         values (#{id}, #{userId}, #{userChineseName}, #{cargoNumber},#{cargoName}, #{orderNumber}, #{orderDate},#{buyCount})
     </insert>
 
+    <update id="update" parameterType="com.example.demo.model.order.Order">
+        UPDATE t_order
+        SET o_id=#{id},
+            o_userId=#{userId},
+            o_userChineseName=#{userChineseName},
+            o_cargoNumber=#{cargoNumber},
+            o_cargoName=#{cargoName},
+            o_orderNumber=#{orderNumber},
+            o_orderDate=#{orderDate},
+            o_buyCount=#{buyCount}
+        WHERE u_id = #{id}
+    </update>
+
     <!--根据Id查询-->
     <select id="selectById" resultMap="OrderMap" parameterType="java.lang.Long">
         select *
@@ -42,6 +55,10 @@
         <if test="userChineseName != null and userChineseName!=''">
             AND o_userChineseName=#{userChineseName}
         </if>
+    </select>
+
+    <select id="selectByUserId" resultMap="OrderMap" parameterType="java.lang.Long">
+        select * from t_order where o_userId=#{userId}
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Long">

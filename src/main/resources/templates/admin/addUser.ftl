@@ -13,7 +13,7 @@
     <legend>添加用户</legend>
 </fieldset>
 
-<form class="layui-form" action="${request.contextPath}/insertUser" lay-filter="lay-form" method="get">
+<form class="layui-form" action="${request.contextPath}/insertUser" lay-filter="lay-form" method="post">
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">

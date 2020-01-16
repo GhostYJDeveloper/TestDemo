@@ -220,7 +220,7 @@
         });
     });
     $('#btnAddUser').on('click', function () {
-        location.href = "${request.contextPath}/addUser";
+        location.href = "${request.contextPath}/goAddUser";
     });
     $('#btnWarehouserList').on('click', function () {
         location.href = "${request.contextPath}/warehouse/list";

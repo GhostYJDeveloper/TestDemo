@@ -39,5 +39,9 @@
         where lt_id = #{id}
     </delete>
 
-
+    <delete id="deleteByLoginId" parameterType="java.lang.Long">
+        delete
+        from t_loginToken
+        where lt_loginId = #{loginId}
+    </delete>
 </mapper>

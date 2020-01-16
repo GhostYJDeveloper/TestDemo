@@ -39,4 +39,10 @@ public interface LoginTokenMapper {
      * @param id
      */
     int deleteById(long id);
+
+    /**
+     * 根据登录用户Id删除
+     * @param loginId
+     */
+    int deleteByLoginId(long loginId);
 }

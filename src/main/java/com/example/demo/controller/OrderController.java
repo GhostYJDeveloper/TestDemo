@@ -192,6 +192,12 @@ public class OrderController {
             JsonNode element = el.next();
             Long id = element.get("id").asLong();
             idList.add(id);
+
+            //加库存
+            Order order=orderMapper.selectById(id);
+            Warehouse warehouse = warehouseMapper.selectByNumber(order.getCargoNumber());
+            warehouse.setCount(warehouse.getCount() + order.getBuyCount());
+            warehouseMapper.update(warehouse);
         }
         orderMapper.deleteBatch(idList);
         return Result.success("批量删除成功");

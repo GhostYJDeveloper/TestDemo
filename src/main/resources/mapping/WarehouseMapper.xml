@@ -16,6 +16,13 @@
                 #{addDate}, #{outDate})
     </insert>
 
+    <update id="update" parameterType="com.example.demo.model.warehouse.Warehouse">
+        UPDATE t_warehouse
+        SET wh_number=#{number},wh_name=#{name},wh_type=#{type,typeHandler=com.example.demo.common.WarehouseEnumStatusHandler}
+            ,wh_count=#{count},wh_addDate=#{addDate},wh_outDate=#{outDate}
+        WHERE wh_id=#{id}
+    </update>
+
     <!--根据Id查询-->
     <select id="selectById" resultMap="WarehouseMap" parameterType="java.lang.Long">
         select *
@@ -70,13 +77,6 @@
         from t_warehouse
         where wh_id = #{id}
     </delete>
-
-    <update id="update" parameterType="com.example.demo.model.warehouse.Warehouse">
-        UPDATE t_warehouse
-        SET wh_number=#{number},wh_name=#{name},wh_type=#{type,typeHandler=com.example.demo.common.WarehouseEnumStatusHandler}
-            ,wh_count=#{count},wh_addDate=#{addDate},wh_outDate=#{outDate}
-        WHERE wh_id=#{id}
-    </update>
 
     <!-- 批量删除 -->
     <delete id="deleteBatch">
