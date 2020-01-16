@@ -81,9 +81,28 @@ public class AdminController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "goIndex",method = RequestMethod.GET)
+    public ModelAndView goIndex(HttpSession session){
+        ModelAndView modelAndView = new ModelAndView();
+
+        LoginToken loginToken=(LoginToken)session.getAttribute("loginToken");
+        if(loginToken==null)
+        {
+            modelAndView.addObject("errorMessage", "该用户不存在或者密码错误");
+            modelAndView.setViewName("/admin/error");
+            return modelAndView;
+        }
+        else {
+            User user=userMapper.selectById(loginToken.getLoginId());
+            modelAndView.addObject("userChineseName", user.getChineseName());
+            modelAndView.setViewName("/admin/index");
+            return modelAndView;
+        }
+    }
+
     @RequestMapping(value = "goAddUser", method = RequestMethod.POST)
     public ModelAndView addUser() {
-        return new ModelAndView("/admin/addUser");
+        return new ModelAndView("/admin/index");
     }
 
     @RequestMapping(value = "goUpdateUser", method = RequestMethod.GET)
