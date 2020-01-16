@@ -31,7 +31,6 @@
                     </button>
                 </div>
                 <div class="layui-inline">
-                    <button class="layui-btn" id="btnAddUser">添加用户</button>
                     <button class="layui-btn" id="btnWarehouserList">仓库列表</button>
                 </div>
                 <div class="layui-inline" style="float:right">
@@ -219,9 +218,7 @@
             active[type] ? active[type].call(this) : '';
         });
     });
-    $('#btnAddUser').on('click', function () {
-        location.href = "${request.contextPath}/goAddUser";
-    });
+
     $('#btnWarehouserList').on('click', function () {
         location.href = "${request.contextPath}/warehouse/list";
     });

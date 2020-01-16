@@ -9,34 +9,80 @@
     <link rel="stylesheet" href="${request.contextPath}/layuiadmin/layui/css/layui.css">
 </head>
 <style>
-    body{margin:0; padding:0;}
+    body {
+        margin: 0;
+        padding: 0;
+    }
 </style>
 
-    <body>
-    <ul class="layui-nav">
-        <li class="layui-nav-item">
-            <a href="${request.contextPath}/warehouse/list">仓库列表<span class="layui-badge">${warehouseCount}</span></a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="${request.contextPath}/order/list">订单列表<span class="layui-badge">${orderCount}</span></a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="${request.contextPath}/listUser">用户列表<span class="layui-badge-dot"></span></a>
-        </li>
-        <li class="layui-nav-item" lay-unselect="">
-            <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
-            <dl class="layui-nav-child">
-                <dd><a href="${request.contextPath}/goUpdateUser">修改信息</a></dd>
-                <dd><a href="${request.contextPath}/reLogin">注销</a></dd>
-            </dl>
-        </li>
-    </ul>
-    <div>
-        <iframe id="iframepage" width="100%" height="600" src="${request.contextPath}/order/list" scrolling="auto"
-                frameborder="0"></iframe>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">GhostYJ SMM框架</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="${request.contextPath}/listUser">用户列表</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    ${userChineseName}
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="${request.contextPath}/goUpdateUser">修改资料</a></dd>
+                    <dd><a href="${request.contextPath}/reLogin">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
     </div>
-    </body>
 
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">所有货物</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="${request.contextPath}/warehouse/list">货物列表</a></dd>
+<#--                        <dd><a href="javascript:;">列表二</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">所有订单</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="${request.contextPath}/order/list">订单列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="${request.contextPath}/warehouse/add">商品入库</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <iframe id="iframepage" width="100%" height="600" src="${request.contextPath}/order/list" scrolling="auto"
+                                             frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        GhostYJ SMM 框架
+    </div>
+</div>
+</body>
 </html>
 <script src="${request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${request.contextPath}/layuiadmin/layui/layui.js"></script>
@@ -57,11 +103,11 @@
         $("#iframepage").contents().find("#divDelete").hide();
     });
 
-    layui.use('element', function(){
+    layui.use('element', function () {
         var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
 
         //监听导航点击
-        element.on('nav(demo)', function(elem){
+        element.on('nav(demo)', function (elem) {
             //console.log(elem)
             layer.msg(elem.text());
         });

@@ -17,6 +17,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.kafka.common.security.authenticator.Login;
 import org.apache.kafka.common.security.authenticator.LoginManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,8 +56,8 @@ public class AdminController {
         return new ModelAndView("admin/login");
     }
 
-    @RequestMapping(value = "index", method = RequestMethod.POST)
-    public ModelAndView index(String userName, String password, HttpSession session) {
+    @RequestMapping(value = "index",method = RequestMethod.POST)
+    public ModelAndView index(String userName,String password, HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
         User user = userMapper.selectByUserName(userName);
         if (user == null || !password.equals(user.getPassWord())) {
@@ -73,13 +74,14 @@ public class AdminController {
 
         Integer warehouseCount = warehouseMapper.selectCount();
         Integer orderCount = orderMapper.selectCount();
+        modelAndView.addObject("userChineseName", user.getChineseName());
         modelAndView.addObject("warehouseCount", warehouseCount);
         modelAndView.addObject("orderCount", orderCount);
         modelAndView.setViewName("/admin/index");
         return modelAndView;
     }
 
-    @RequestMapping(value = "goAddUser", method = RequestMethod.GET)
+    @RequestMapping(value = "goAddUser", method = RequestMethod.POST)
     public ModelAndView addUser() {
         return new ModelAndView("/admin/addUser");
     }
