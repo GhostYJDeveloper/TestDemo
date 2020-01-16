@@ -44,6 +44,9 @@
         <if test="userChineseName != null and userChineseName!=''">
             AND o_userChineseName=#{userChineseName}
         </if>
+        <if test="orderNumber != null and orderNumber!=''">
+            AND o_orderNumber=#{orderNumber}
+        </if>
         limit #{currentIndex} , #{pageSize}
     </select>
 
