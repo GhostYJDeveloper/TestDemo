@@ -17,6 +17,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.kafka.common.security.authenticator.Login;
 import org.apache.kafka.common.security.authenticator.LoginManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,8 +56,8 @@ public class AdminController {
         return new ModelAndView("admin/login");
     }
 
-    @RequestMapping(value = "index", method = RequestMethod.POST)
-    public ModelAndView index(String userName, String password, HttpSession session) {
+    @RequestMapping(value = "index",method = RequestMethod.POST)
+    public ModelAndView index(String userName,String password, HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
         User user = userMapper.selectByUserName(userName);
         if (user == null || !password.equals(user.getPassWord())) {
@@ -71,17 +72,37 @@ public class AdminController {
         loginTokenMapper.insert(loginToken);
         session.setAttribute("loginToken", loginToken);
 
-        Integer warehouseCount=warehouseMapper.selectCount();
-        Integer orderCount=orderMapper.selectCount();
+        Integer warehouseCount = warehouseMapper.selectCount();
+        Integer orderCount = orderMapper.selectCount();
+        modelAndView.addObject("userChineseName", user.getChineseName());
         modelAndView.addObject("warehouseCount", warehouseCount);
         modelAndView.addObject("orderCount", orderCount);
         modelAndView.setViewName("/admin/index");
         return modelAndView;
     }
 
-    @RequestMapping(value = "goAddUser", method = RequestMethod.GET)
+    @RequestMapping(value = "goIndex",method = RequestMethod.GET)
+    public ModelAndView goIndex(HttpSession session){
+        ModelAndView modelAndView = new ModelAndView();
+
+        LoginToken loginToken=(LoginToken)session.getAttribute("loginToken");
+        if(loginToken==null)
+        {
+            modelAndView.addObject("errorMessage", "该用户不存在或者密码错误");
+            modelAndView.setViewName("/admin/error");
+            return modelAndView;
+        }
+        else {
+            User user=userMapper.selectById(loginToken.getLoginId());
+            modelAndView.addObject("userChineseName", user.getChineseName());
+            modelAndView.setViewName("/admin/index");
+            return modelAndView;
+        }
+    }
+
+    @RequestMapping(value = "goAddUser", method = RequestMethod.POST)
     public ModelAndView addUser() {
-        return new ModelAndView("/admin/addUser");
+        return new ModelAndView("/admin/index");
     }
 
     @RequestMapping(value = "goUpdateUser", method = RequestMethod.GET)
@@ -116,7 +137,7 @@ public class AdminController {
         return new ModelAndView("/admin/detail");
     }
 
-    @RequestMapping(value = "insertUser", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "insertUser", method = RequestMethod.POST)
     public ModelAndView insertUser(String username, String password, String chineseName, String createTime) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(createTime);
@@ -125,9 +146,8 @@ public class AdminController {
         return new ModelAndView("/admin/list");
     }
 
-    @RequestMapping(value = "updateUser", method = {RequestMethod.POST,RequestMethod.GET})
-    public
-    ModelAndView updateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
+    @RequestMapping(value = "updateUser", method = RequestMethod.POST)
+    public ModelAndView updateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
         User user = userMapper.selectById(Long.parseLong(id));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(updateTime);
@@ -140,12 +160,39 @@ public class AdminController {
         }
 
         //更新订单表中下单人员的中文名
-        List<Order> orderList=orderMapper.selectByUserId(user.getId());
+        List<Order> orderList = orderMapper.selectByUserId(user.getId());
         for (Order order : orderList) {
             order.setUserChineseName(user.getChineseName());
             orderMapper.update(order);
         }
         return new ModelAndView("/admin/list");
+    }
+
+    @RequestMapping(value = "windowUpdateUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Result windowUpdateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
+        try {
+            User user = userMapper.selectById(Long.parseLong(id));
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date date = format.parse(updateTime);
+            if (user != null) {
+                user.setUserName(username);
+                user.setPassWord(password);
+                user.setChineseName(chineseName);
+                user.setUpdateTime(date);
+                userMapper.update(user);
+            }
+
+            //更新订单表中下单人员的中文名
+            List<Order> orderList = orderMapper.selectByUserId(user.getId());
+            for (Order order : orderList) {
+                order.setUserChineseName(user.getChineseName());
+                orderMapper.update(order);
+            }
+            return Result.success("成功");
+        }catch (Exception ex){
+            return Result.error(1,ex.getMessage());
+        }
     }
 
 

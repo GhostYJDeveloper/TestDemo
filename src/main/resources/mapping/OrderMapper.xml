@@ -26,7 +26,7 @@
             o_orderNumber=#{orderNumber},
             o_orderDate=#{orderDate},
             o_buyCount=#{buyCount}
-        WHERE u_id = #{id}
+        WHERE o_id = #{id}
     </update>
 
     <!--根据Id查询-->

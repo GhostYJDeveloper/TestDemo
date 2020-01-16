@@ -31,11 +31,10 @@
                     </button>
                 </div>
                 <div class="layui-inline">
-                    <button class="layui-btn" id="btnAddUser">添加用户</button>
                     <button class="layui-btn" id="btnWarehouserList">仓库列表</button>
                 </div>
                 <div class="layui-inline" style="float:right">
-                    <button class="layui-btn" id="btnReLogin">注销登录</button>
+                    <button class="layui-btn" id="btnIndex">返回首页</button>
                 </div>
             </div>
         </div>
@@ -123,22 +122,19 @@
                                 yes: function (index, layero) {
                                     var iframeWindow = window['layui-layer-iframe' + index],
                                         submit = layero.find('iframe').contents().find('#lay-submit');
-
                                     //监听提交
                                     iframeWindow.layui.form.on('submit(lay-submit)', function (data) {
                                         $.ajax({
-                                            url: layui.setter.contextPath + '/updateUser/'+obj.data.id,
-                                            type: 'PUT',
+                                            url: layui.setter.contextPath + '/windowUpdateUser',
+                                            type: 'POST',
                                             dataType: 'JSON',
                                             data:data.field,
                                             success: function (data) {
-                                                if (data.success) {
-                                                    table.reload('lay-table');
-                                                    layer.close(index);
-                                                }
-                                                else {
-                                                    layer.msg(data.message);
-                                                }
+                                                table.reload('lay-table');
+                                                layer.close(index);
+                                            },
+                                            error:function(data){
+                                                alert(data.responseText);
                                             }
                                         });
                                     });
@@ -219,14 +215,12 @@
             active[type] ? active[type].call(this) : '';
         });
     });
-    $('#btnAddUser').on('click', function () {
-        location.href = "${request.contextPath}/goAddUser";
-    });
+
     $('#btnWarehouserList').on('click', function () {
         location.href = "${request.contextPath}/warehouse/list";
     });
-    $('#btnReLogin').on('click', function () {
-        location.href = "${request.contextPath}/reLogin";
+    $('#btnIndex').on('click', function () {
+        location.href = "${request.contextPath}/goIndex";
     });
 
 </script>
