@@ -46,14 +46,18 @@ public class OrderController {
     @Autowired
     LoginTokenMapper loginTokenMapper;
 
-    @RequestMapping(value = "/order/add/{number}", method = RequestMethod.GET)
-    public ModelAndView gotoAdd(@PathVariable String number, HttpSession session) {
+    @RequestMapping(value = "/order/add/{id}", method = RequestMethod.GET)
+    public ModelAndView gotoAdd(@PathVariable String id, HttpSession session) {
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
         User user = null;
+        Warehouse warehouse = null;
         if (loginToken != null)
             user = userMapper.selectById(loginToken.getLoginId());
+        if(id != null)
+            warehouse = warehouseMapper.selectById(Long.parseLong(id));
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("number", number);
+        modelAndView.addObject("number", warehouse.getNumber());
+        modelAndView.addObject("name", warehouse.getName());
         if (user != null) {
             modelAndView.addObject("chineseName", user.getChineseName());
             modelAndView.addObject("userId", String.valueOf(user.getId()));
