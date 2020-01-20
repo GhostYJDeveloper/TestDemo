@@ -34,12 +34,12 @@ public class WarehouseController {
     @Autowired
     private LoginTokenMapper loginTokenMapper;
 
-    @RequestMapping(value = "/warehouse/manageWarehouse", method = RequestMethod.GET)
+    @GetMapping(value = "/warehouse/manageWarehouse")
     public String manageWarehouse() {
         return "/warehouse/add";
     }
 
-    @RequestMapping(value = "/warehouse/insertWarehouse", method = RequestMethod.POST)
+    @PostMapping(value = "/warehouse/insertWarehouse")
     @Transactional
     public ModelAndView insertWarehouse(String name, String type, String count, String addDate) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -52,12 +52,12 @@ public class WarehouseController {
         return new ModelAndView("/warehouse/list");
     }
 
-    @RequestMapping(value = "/warehouse/add")
+    @GetMapping(value = "/warehouse/add")
     public ModelAndView gotoAdd(){
         return new ModelAndView("/warehouse/add");
     }
 
-    @RequestMapping(value = "/warehouse/list",method = RequestMethod.GET)
+    @GetMapping(value = "/warehouse/list")
     public ModelAndView gotoList(HttpSession session){
         //先通过Session判断令牌有无失效
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
@@ -80,12 +80,12 @@ public class WarehouseController {
         return new ModelAndView("/warehouse/list");
     }
 
-    @RequestMapping(value = "/warehouse/detail",method = RequestMethod.GET)
+    @GetMapping(value = "/warehouse/detail")
     public ModelAndView gotoDetail(){
         return new ModelAndView("/warehouse/detail");
     }
 
-    @RequestMapping(value = "/rest/warehouse", method = RequestMethod.GET)
+    @GetMapping(value = "/rest/warehouse")
     @ResponseBody
     public HashMap getWarehouse(HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap();
@@ -116,7 +116,7 @@ public class WarehouseController {
         return map;
     }
 
-    @RequestMapping(value = "/rest/warehouse/{id}",method = RequestMethod.GET)
+    @GetMapping(value = "/rest/warehouse/{id}")
     public @ResponseBody Result selectById(@PathVariable Long id){
         Warehouse warehouse= warehouseMapper.selectById(id);
         if (warehouse != null)
@@ -125,13 +125,13 @@ public class WarehouseController {
             return Result.error(1, "没有找到Id为" + id + "的用户信息。");
     }
 
-    @RequestMapping(value = "/rest/warehouse",method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/rest/warehouse")
     public @ResponseBody Result deleteById(Long id){
         warehouseMapper.deleteById(id);
         return Result.success();
     }
 
-    @RequestMapping(value = "/rest/warehouse/batch-delete",method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/rest/warehouse/batch-delete")
     @Transactional
     public @ResponseBody Result batchDeleteById(@RequestBody String requestBody) throws IOException {
         ObjectMapper objectMapper=new ObjectMapper();

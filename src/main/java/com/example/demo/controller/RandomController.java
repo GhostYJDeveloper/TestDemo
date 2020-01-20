@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.RandomValidateCodeUtil.RandomValidateCodeUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +17,7 @@ public class RandomController {
     /**
      * 生成验证码
      */
-    @RequestMapping(value = "/getVerify")
+    @GetMapping(value = "/getVerify")
     public void getVerify(HttpServletRequest request, HttpServletResponse response) {
         try {
             response.setContentType("image/jpeg");//设置相应类型,告诉浏览器输出的内容为图片

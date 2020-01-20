@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @Controller
 public class UploadFileController {
-    @RequestMapping(value = "upload",method = RequestMethod.POST)
+    @PostMapping(value = "upload")
     public @ResponseBody String uploadFile(MultipartFile file) {
         try{
             FileUtils.writeByteArrayToFile(new File("c:/upload/"+file.getOriginalFilename()),file.getBytes());

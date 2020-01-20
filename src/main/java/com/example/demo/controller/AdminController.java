@@ -34,7 +34,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
-
 public class AdminController {
     @Autowired
     private UserMapper userMapper;
@@ -47,6 +46,7 @@ public class AdminController {
 
     @Autowired
     private OrderMapper orderMapper;
+
     @Autowired
     private FileService fileService;
 
@@ -55,13 +55,13 @@ public class AdminController {
 ////    public String login() {
 ////        return "admin/login";
 ////    }
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping(value = "login")
     public ModelAndView Login(HttpSession session) {
         session.removeAttribute("loginToken");
         return new ModelAndView("admin/login");
     }
 
-    @RequestMapping(value = "reLogin", method = RequestMethod.GET)
+    @GetMapping(value = "reLogin")
     public ModelAndView ReLogin(HttpSession session) {
         session.removeAttribute("loginToken");
         return new ModelAndView("admin/login");
@@ -99,7 +99,7 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = "goIndex", method = RequestMethod.GET)
+    @GetMapping(value = "goIndex")
     public ModelAndView goIndex(HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -116,12 +116,12 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = "goAddUser", method = RequestMethod.POST)
+    @PostMapping(value = "goAddUser")
     public ModelAndView addUser() {
         return new ModelAndView("/admin/index");
     }
 
-    @RequestMapping(value = "goUpdateUser", method = RequestMethod.GET)
+    @GetMapping(value = "goUpdateUser")
     public ModelAndView updateUser(HttpSession session) {
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
         if (loginToken == null) {
@@ -138,22 +138,22 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = "edit", method = RequestMethod.GET)
+    @GetMapping(value = "edit")
     public ModelAndView editUser() {
         return new ModelAndView("/admin/edit");
     }
 
-    @RequestMapping(value = "listUser", method = RequestMethod.GET)
+    @GetMapping(value = "listUser")
     public ModelAndView listUser() {
         return new ModelAndView("/admin/list");
     }
 
-    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    @GetMapping(value = "detail")
     public ModelAndView detail() {
         return new ModelAndView("/admin/detail");
     }
 
-    @RequestMapping(value = "insertUser", method = RequestMethod.POST)
+    @PostMapping(value = "insertUser")
     public ModelAndView insertUser(String username, String password, String chineseName, String createTime) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(createTime);
@@ -162,7 +162,7 @@ public class AdminController {
         return new ModelAndView("/admin/list");
     }
 
-    @RequestMapping(value = "updateUser", method =RequestMethod.POST)
+    @PostMapping(value = "updateUser")
     public ModelAndView updateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
         User user = userMapper.selectById(Long.parseLong(id));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -185,7 +185,7 @@ public class AdminController {
         return new ModelAndView("/admin/list");
     }
 
-    @RequestMapping(value = "windowUpdateUser", method = RequestMethod.POST)
+    @PostMapping(value = "windowUpdateUser")
     @ResponseBody
     public Result windowUpdateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
         try {
@@ -213,7 +213,7 @@ public class AdminController {
     }
 
 
-    @RequestMapping(value = "/rest/user", method = RequestMethod.GET)
+    @GetMapping(value = "/rest/user")
     @ResponseBody
     public HashMap getUser(HttpServletRequest request, HttpSession session) {
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
@@ -246,7 +246,7 @@ public class AdminController {
         return map;
     }
 
-    @RequestMapping(value = "/rest/user/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/rest/user/{id}")
     @ResponseBody
     public Result getUserById(@PathVariable long id) {
         User user = userMapper.selectById(id);
@@ -256,14 +256,14 @@ public class AdminController {
             return Result.error(1, "没有找到Id为" + id + "的用户信息。");
     }
 
-    @RequestMapping(value = "/rest/user", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/rest/user")
     @ResponseBody
     public Result delectUserById(String id) {
         userMapper.deleteById(Long.parseLong(id));
         return Result.success("删除成功");
     }
 
-    @RequestMapping(value = "/rest/user/batch-delete")
+    @DeleteMapping(value = "/rest/user/batch-delete")
     @ResponseBody
     public Result batchDeleteUser(@RequestBody String requestBody) {
         ObjectMapper objectMapper = new ObjectMapper();

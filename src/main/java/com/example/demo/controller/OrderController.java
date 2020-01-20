@@ -46,7 +46,7 @@ public class OrderController {
     @Autowired
     LoginTokenMapper loginTokenMapper;
 
-    @RequestMapping(value = "/order/add/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/order/add/{id}")
     public ModelAndView gotoAdd(@PathVariable String id, HttpSession session) {
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
         User user = null;
@@ -66,12 +66,12 @@ public class OrderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/order/detail", method = RequestMethod.GET)
+    @GetMapping(value = "/order/detail")
     public ModelAndView gotoDetail() {
         return new ModelAndView("/order/detail");
     }
 
-    @RequestMapping(value = "/order/list", method = RequestMethod.GET)
+    @GetMapping(value = "/order/list")
     public ModelAndView gotoList(HttpSession session) {
         //先通过Session判断令牌有无失效
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
@@ -94,7 +94,7 @@ public class OrderController {
         return new ModelAndView("/order/list");
     }
 
-    @RequestMapping(value = "/order/insertOrder", method = RequestMethod.POST)
+    @PostMapping(value = "/order/insertOrder")
     @Transactional
     public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber,String cargoName, String orderDate
             , String buyCount) throws ParseException {
@@ -113,7 +113,7 @@ public class OrderController {
         return new ModelAndView("/warehouse/list");
     }
 
-    @RequestMapping(value = "/rest/order", method = RequestMethod.GET)
+    @GetMapping(value = "/rest/order")
     @ResponseBody
     public HashMap getOrder(HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap();
@@ -154,7 +154,7 @@ public class OrderController {
         return map;
     }
 
-    @RequestMapping(value = "/rest/orderDetail", method = RequestMethod.GET)
+    @GetMapping(value = "/rest/orderDetail")
     @ResponseBody
     public Result detail(String id, String userChineseName, String typeName) {
         Order order = orderMapper.selectById(Long.parseLong(id));
@@ -165,7 +165,7 @@ public class OrderController {
             return Result.error(1, "没有找到id为" + id + "的订单信息");
     }
 
-    @RequestMapping(value = "/rest/order", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/rest/order")
     @ResponseBody
     @Transactional(rollbackFor = Exception.class)
     public Result deleteById(String id) {
@@ -183,7 +183,7 @@ public class OrderController {
             return Result.error(1, "删除失败");
     }
 
-    @RequestMapping(value = "/rest/order/batch-delete", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/rest/order/batch-delete")
     @ResponseBody
     @Transactional
     public Result branchDelete(@RequestBody String requestBody) throws IOException {
