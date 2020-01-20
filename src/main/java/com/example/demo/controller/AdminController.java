@@ -10,6 +10,7 @@ import com.example.demo.model.mapper.LoginTokenMapper;
 import com.example.demo.model.mapper.OrderMapper;
 import com.example.demo.model.mapper.WarehouseMapper;
 import com.example.demo.model.order.Order;
+import com.example.demo.service.FileService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -20,8 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -30,7 +33,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Controller
+@RestController
+
 public class AdminController {
     @Autowired
     private UserMapper userMapper;
@@ -43,6 +47,8 @@ public class AdminController {
 
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private FileService fileService;
 
     //转为ViewConfig全局配置类跳转12
 //    @RequestMapping(value = "login", method = RequestMethod.GET)
@@ -156,7 +162,7 @@ public class AdminController {
         return new ModelAndView("/admin/list");
     }
 
-    @RequestMapping(value = "updateUser", method = RequestMethod.POST)
+    @RequestMapping(value = "updateUser", method =RequestMethod.POST)
     public ModelAndView updateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
         User user = userMapper.selectById(Long.parseLong(id));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -175,6 +181,7 @@ public class AdminController {
             order.setUserChineseName(user.getChineseName());
             orderMapper.update(order);
         }
+        //保存文件
         return new ModelAndView("/admin/list");
     }
 

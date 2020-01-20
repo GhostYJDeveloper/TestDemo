@@ -36,11 +36,13 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+<#--                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
+                        <img src="uploads/tt.png" style="width:30px;height: 30px">
                         ${userChineseName}
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="${request.contextPath}/goUpdateUser">修改资料</a></dd>
+                        <dd><a href="${request.contextPath}/file/gotoUpload">上传头像</a></dd>
                         <dd><a href="${request.contextPath}/reLogin">退出</a></dd>
                     </dl>
                 </li>
