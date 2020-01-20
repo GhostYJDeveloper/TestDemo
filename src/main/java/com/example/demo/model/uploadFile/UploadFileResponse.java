@@ -1,5 +1,7 @@
 package com.example.demo.model.uploadFile;
 
+import com.example.demo.common.SnowFlake;
+
 import java.util.Date;
 
 public class UploadFileResponse {
@@ -20,6 +22,43 @@ public class UploadFileResponse {
     private String urCustominfo;
 
     private Date urRecordtime;
+
+
+    public UploadFileResponse(String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo) {
+        this.urId= SnowFlake.instant().nextId();
+        this.urDomainname = urDomainname;
+        this.urDomainid = urDomainid;
+        this.urFilename = urFilename;
+        this.urFiledownloaduri = urFiledownloaduri;
+        this.urFiletype = urFiletype;
+        this.urSize = urSize;
+        this.urCustominfo = urCustominfo;
+        this.urRecordtime = new Date();
+    }
+
+    /**
+     * 从仓储还原
+     * @param urId
+     * @param urDomainname
+     * @param urDomainid
+     * @param urFilename
+     * @param urFiledownloaduri
+     * @param urFiletype
+     * @param urSize
+     * @param urCustominfo
+     * @param urRecordtime
+     */
+    public UploadFileResponse(Long urId, String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo, Date urRecordtime) {
+        this.urId = urId;
+        this.urDomainname = urDomainname;
+        this.urDomainid = urDomainid;
+        this.urFilename = urFilename;
+        this.urFiledownloaduri = urFiledownloaduri;
+        this.urFiletype = urFiletype;
+        this.urSize = urSize;
+        this.urCustominfo = urCustominfo;
+        this.urRecordtime = urRecordtime;
+    }
 
     public Long getUrId() {
         return urId;

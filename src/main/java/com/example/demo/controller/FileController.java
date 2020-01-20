@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.UploadFileResponse;
+import com.example.demo.model.uploadFile.UploadFileResponse;
 import com.example.demo.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public class FileController {
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/file/downloadFile").toUriString()+"?fileName="+fileName;
 
-        return new UploadFileResponse("User",1,fileName, fileDownloadUri,
+        return new UploadFileResponse("User",1L,fileName, fileDownloadUri,
                 file.getContentType(), file.getSize(),"HeadPhoto");
     }
 
