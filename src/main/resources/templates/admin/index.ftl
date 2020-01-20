@@ -37,7 +37,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">
 <#--                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
-                        <img src="uploads/tt.png" style="width:30px;height: 30px">
+                        <img src="uploads/QQ截图20200120094521.png" style="width:30px;height: 30px">
                         ${userChineseName}
                     </a>
                     <dl class="layui-nav-child">
