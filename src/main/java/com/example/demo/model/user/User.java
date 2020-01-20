@@ -1,12 +1,10 @@
-package com.example.demo.domain.user;
-
+package com.example.demo.model.user;
 import com.example.demo.common.SnowFlake;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
-
-public class User implements Serializable {
+public class User {
     private long id;
     private String chineseName;
     private String userName;

@@ -2,14 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.common.Result;
 import com.example.demo.common.SnowFlake;
-import com.example.demo.domain.mapper.UserMapper;
-import com.example.demo.domain.user.User;
 import com.example.demo.model.login.LoginToken;
 import com.example.demo.model.login.LoginTypeEnum;
 import com.example.demo.model.mapper.LoginTokenMapper;
 import com.example.demo.model.mapper.OrderMapper;
+import com.example.demo.model.mapper.UserMapper;
 import com.example.demo.model.mapper.WarehouseMapper;
 import com.example.demo.model.order.Order;
+import com.example.demo.model.user.User;
 import com.example.demo.service.FileService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

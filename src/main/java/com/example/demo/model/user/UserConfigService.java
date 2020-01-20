@@ -1,10 +1,9 @@
-package com.example.demo.domain.user;
+package com.example.demo.model.user;
 
+import com.example.demo.infrastructure.user.UserConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
+
 import org.springframework.stereotype.Service;
 
 @Service

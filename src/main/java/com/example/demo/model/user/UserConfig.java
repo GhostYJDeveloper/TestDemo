@@ -1,11 +1,8 @@
-package com.example.demo.domain.user;
-
+package com.example.demo.model.user;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
-
 public class UserConfig {
-
     private Long id;
     private String chineseName;
     private String userName;

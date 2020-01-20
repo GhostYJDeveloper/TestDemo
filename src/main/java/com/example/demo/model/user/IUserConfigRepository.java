@@ -1,10 +1,10 @@
-package com.example.demo.domain.user;
+package com.example.demo.model.user;
 
+import com.example.demo.model.user.UserConfig;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.util.HashMap;
 import java.util.List;
-
 public interface IUserConfigRepository {
     /**
      *

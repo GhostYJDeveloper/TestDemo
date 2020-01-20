@@ -1,10 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.domain.aop.DemoAnnotationService;
-import com.example.demo.domain.aop.DemoMethodService;
-import com.example.demo.domain.user.User;
-import com.example.demo.domain.user.UserConfigService;
-import com.example.demo.domain.mapper.UserMapper;
+import com.example.demo.model.mapper.UserMapper;
+import com.example.demo.model.user.User;
+import com.example.demo.model.user.UserConfigService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +22,6 @@ public class DemoApplicationTests {
     JdbcTemplate jdbcTemplate;
     @Autowired
     private UserConfigService userConfigService;
-
-    @Autowired
-    private DemoAnnotationService demoAnnotationService;
-
-    @Inject
-    private DemoMethodService demoMethodService;
-
     @Autowired
     private UserMapper userMapper;
 
@@ -53,12 +44,5 @@ public class DemoApplicationTests {
         List<User> userList = userMapper.findAll();
         System.out.println(userList.get(0).getUserName());
     }
-
-    @Test
-    public void TestAop(){
-        demoAnnotationService.add();
-        demoMethodService.add();
-    }
-
 
 }

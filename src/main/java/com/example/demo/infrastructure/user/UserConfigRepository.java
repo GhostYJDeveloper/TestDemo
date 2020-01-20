@@ -1,5 +1,8 @@
-package com.example.demo.domain.user;
+package com.example.demo.infrastructure.user;
 
+import com.example.demo.model.user.IUserConfigRepository;
+import com.example.demo.model.user.User;
+import com.example.demo.model.user.UserConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

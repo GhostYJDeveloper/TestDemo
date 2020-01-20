@@ -1,6 +1,5 @@
-package com.example.demo.domain.mapper;
-
-import com.example.demo.domain.user.User;
+package com.example.demo.model.mapper;
+import com.example.demo.model.user.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
