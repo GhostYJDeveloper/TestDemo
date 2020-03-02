@@ -62,23 +62,46 @@ function uploadMultipleFiles(files) {
     xhr.send(formData);
 }
 
-singleUploadForm.addEventListener('submit', function(event){
+if(singleUploadForm!=null) {
+    singleUploadForm.addEventListener('submit', function (event) {
+        var files = singleFileUploadInput.files;
+
+        if (files.length === 0) {
+            singleFileUploadError.innerHTML = "Please select a file";
+            singleFileUploadError.style.display = "block";
+        }
+        uploadSingleFile(files[0]);
+        event.preventDefault();
+    }, true);
+}
+
+if(multipleUploadForm!=null) {
+    multipleUploadForm.addEventListener('submit', function (event) {
+        var files = multipleFileUploadInput.files;
+        if (files.length === 0) {
+            multipleFileUploadError.innerHTML = "Please select at least one file";
+            multipleFileUploadError.style.display = "block";
+        }
+        uploadMultipleFiles(files);
+        event.preventDefault();
+    }, true);
+}
+
+function singleUpload() {
     var files = singleFileUploadInput.files;
 
-    if(files.length === 0) {
+    if (files.length === 0) {
         singleFileUploadError.innerHTML = "Please select a file";
         singleFileUploadError.style.display = "block";
     }
     uploadSingleFile(files[0]);
-    event.preventDefault();
-}, true);
+}
 
-multipleUploadForm.addEventListener('submit', function(event){
+function multipleUpload() {
     var files = multipleFileUploadInput.files;
-    if(files.length === 0) {
+    if (files.length === 0) {
         multipleFileUploadError.innerHTML = "Please select at least one file";
         multipleFileUploadError.style.display = "block";
     }
     uploadMultipleFiles(files);
-    event.preventDefault();
-}, true);
+}

@@ -13,7 +13,7 @@
     <legend>修改个人信息</legend>
 </fieldset>
 
-<form class="layui-form" action="${request.contextPath}/updateUser" lay-filter="lay-form" method="post">
+<form class="layui-form" name="updateForm" lay-filter="lay-form" method="post" enctype="multipart/form-data">
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
@@ -36,6 +36,18 @@
                    type="text" value="${user.chineseName}">
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上传头像</label>
+        <div class="layui-input-block">
+            <div id="singleUploadForm" name="singleUploadForm">
+                <input id="singleFileUploadInput" type="file" name="file" class="file-input" required/>
+            </div>
+            <div class="upload-response">
+                <div id="singleFileUploadError"></div>
+                <div id="singleFileUploadSuccess"></div>
+            </div>
+        </div>
+    </div>
     <div class="layui-inline">
         <label class="layui-form-label">修改时间</label>
         <div class="layui-input-block">
@@ -49,25 +61,19 @@
         </div>
     </div>
 </form>
+<script src="${request.contextPath}/js/main.js"></script>
 <script src="${request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${request.contextPath}/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['form', 'layer', 'laydate'], function () {
-        var layer = layui.layer, form = layui.form, $ = layui.jquery, laydate = layui.laydate;
-        ;
-        ${message!}
-        // form.on('submit(demo1)', function (data) {
-        //     layer.alert(JSON.stringify(data.field), {
-        //         title: '最终的提交信息'
-        //     })
-        //     return false;
-        // });
-        laydate.render({
-            elem: '#updateTime',
-            value:new Date()
-        });
+    var d = new Date();
+    var datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+    $("#updateTime").val(datetime);
 
+    $('#btnApply').on('click', function () {
+        singleUpload();
+        document.updateForm.action = '${request.contextPath}/updateUser';
     });
+
 </script>
 
 </body>
