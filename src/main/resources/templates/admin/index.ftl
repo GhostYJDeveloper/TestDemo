@@ -41,8 +41,8 @@
                         ${userChineseName}
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="${request.contextPath}/goUpdateUser">修改资料</a></dd>
-                        <dd><a href="${request.contextPath}/file/gotoUpload">上传头像</a></dd>
+                        <dd><a id="aUpdateUser" href="javascript:;">修改资料</a></dd>
+                        <dd><a id="aUpload" href="javascript:;">上传头像</a></dd>
                         <dd><a href="${request.contextPath}/reLogin">退出</a></dd>
                     </dl>
                 </li>
@@ -103,6 +103,18 @@
         changeFrameHeight();
         // $("#iframepage").contents().find("#divRun").hide();
         // $("#iframepage").contents().find("#divDelete").hide();
+    });
+
+    $('#aUpdateUser').on('click', function () {
+        $('#iframepage').attr('src', '${request.contextPath}/goUpdateUser');
+    });
+
+    $('#aUpload').on('click', function () {
+        $('#iframepage').attr('src', '${request.contextPath}/file/gotoUpload');
+    });
+
+    $('#aUpdateUser').on('click', function () {
+        $('#iframepage').attr('src', '${request.contextPath}/goUpdateUser');
     });
 
     $('#aUser').on('click', function () {

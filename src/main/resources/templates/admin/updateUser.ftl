@@ -36,18 +36,18 @@
                    type="text" value="${user.chineseName}">
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">上传头像</label>
-        <div class="layui-input-block">
-            <div id="singleUploadForm" name="singleUploadForm">
-                <input id="singleFileUploadInput" type="file" name="file" class="file-input" required/>
-            </div>
-            <div class="upload-response">
-                <div id="singleFileUploadError"></div>
-                <div id="singleFileUploadSuccess"></div>
-            </div>
-        </div>
-    </div>
+<#--    <div class="layui-form-item">-->
+<#--        <label class="layui-form-label">上传头像</label>-->
+<#--        <div class="layui-input-block">-->
+<#--            <div id="singleUploadForm" name="singleUploadForm">-->
+<#--                <input id="singleFileUploadInput" type="file" name="file" class="file-input" required/>-->
+<#--            </div>-->
+<#--            <div class="upload-response">-->
+<#--                <div id="singleFileUploadError"></div>-->
+<#--                <div id="singleFileUploadSuccess"></div>-->
+<#--            </div>-->
+<#--        </div>-->
+<#--    </div>-->
     <div class="layui-inline">
         <label class="layui-form-label">修改时间</label>
         <div class="layui-input-block">
@@ -70,7 +70,7 @@
     $("#updateTime").val(datetime);
 
     $('#btnApply').on('click', function () {
-        singleUpload();
+        //singleUpload();
         document.updateForm.action = '${request.contextPath}/updateUser';
     });
 
