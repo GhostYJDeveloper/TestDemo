@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.uploadFile.UploadFileResponse;
+import com.example.demo.model.uploadFile.UploadFile;
+import com.example.demo.property.FileProperties;
 import com.example.demo.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,29 +28,34 @@ import java.util.stream.Collectors;
 public class FileController {
 
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
-
+    private final Path fileStorageLocation; // 文件在本地存储的地址
     @Autowired
     private FileService fileService;
 
+    public FileController(FileProperties fileProperties){
+        this.fileStorageLocation = Paths.get(fileProperties.getUploadDir()).toAbsolutePath().normalize();
+    }
     @RequestMapping(value = "gotoUpload")
     public ModelAndView gotoUpload(){
         return new ModelAndView("file/fileIndex");
     }
 
     @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file){
+    public UploadFile uploadFile(@RequestParam("file") MultipartFile file){
         String fileName = fileService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/file/downloadFile").toUriString()+"?fileName="+fileName;
 
-        return new UploadFileResponse("User",1L,fileName, fileDownloadUri,
-                file.getContentType(), file.getSize(),"HeadPhoto");
+        Path targetLocation = fileStorageLocation.resolve(fileName);
+        String savePath=targetLocation.toUri().getPath();
+        return new UploadFile("User",1L,fileName, fileDownloadUri,
+                file.getContentType(), file.getSize(),"HeadPhoto",savePath);
     }
 
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+    public List<UploadFile> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
         return Arrays.stream(files).map(this::uploadFile).collect(Collectors.toList());
     }
 

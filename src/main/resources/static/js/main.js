@@ -1,4 +1,9 @@
 'use strict';
+var urFilename=document.querySelector("#urFilename");
+var urFiledownloaduri=document.querySelector("#urFiledownloaduri");
+var urFiletype=document.querySelector("#urFiletype");
+var urSize=document.querySelector("#urSize");
+var urSavePath=document.querySelector("#urSavePath");
 
 var singleUploadForm = document.querySelector('#singleUploadForm');
 var singleFileUploadInput = document.querySelector('#singleFileUploadInput');
@@ -21,9 +26,13 @@ function uploadSingleFile(file) {
         var response = JSON.parse(xhr.responseText);
         if(xhr.status == 200) {
             singleFileUploadError.style.display = "none";
-            singleFileUploadSuccess.innerHTML = "<p>File Uploaded Successfully.</p><p>DownloadUrl : <a id='aDown' href='" + response.fileDownloadUri + "' target='_blank'>" + response.fileDownloadUri + "</a></p>";
+            singleFileUploadSuccess.innerHTML = "<a id='aDown' href='" + response.urFiledownloaduri + "' target='_blank'>" + response.urFilename + "</a>";
 
-            singleFileUploadSuccess.style.display = "block";
+            urFilename.value=response.urFilename;
+            urFiledownloaduri.value=response.urFiledownloaduri;
+            urFiletype.value=response.urFiletype;
+            urSize.value=response.urSize;
+            urSavePath.value=response.urSavePath;
         } else {
             singleFileUploadSuccess.style.display = "none";
             singleFileUploadError.innerHTML = (response && response.message) || "Some Error Occurred";

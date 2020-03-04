@@ -1,10 +1,11 @@
 package com.example.demo.model.uploadFile;
 
 import com.example.demo.common.SnowFlake;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class UploadFileResponse {
+public class UploadFile {
     private Long urId;
 
     private String urDomainname;
@@ -21,10 +22,13 @@ public class UploadFileResponse {
 
     private String urCustominfo;
 
+    private String urSavePath;
+
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date urRecordtime;
 
 
-    public UploadFileResponse(String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo) {
+    public UploadFile(String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo,String urSavePath) {
         this.urId= SnowFlake.instant().nextId();
         this.urDomainname = urDomainname;
         this.urDomainid = urDomainid;
@@ -33,6 +37,7 @@ public class UploadFileResponse {
         this.urFiletype = urFiletype;
         this.urSize = urSize;
         this.urCustominfo = urCustominfo;
+        this.urSavePath=urSavePath;
         this.urRecordtime = new Date();
     }
 
@@ -48,7 +53,7 @@ public class UploadFileResponse {
      * @param urCustominfo
      * @param urRecordtime
      */
-    public UploadFileResponse(Long urId, String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo, Date urRecordtime) {
+    public UploadFile(Long urId, String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo,String urSavePath,Date urRecordtime) {
         this.urId = urId;
         this.urDomainname = urDomainname;
         this.urDomainid = urDomainid;
@@ -57,6 +62,7 @@ public class UploadFileResponse {
         this.urFiletype = urFiletype;
         this.urSize = urSize;
         this.urCustominfo = urCustominfo;
+        this.urSavePath=urSavePath;
         this.urRecordtime = urRecordtime;
     }
 
@@ -122,6 +128,14 @@ public class UploadFileResponse {
 
     public void setUrCustominfo(String urCustominfo) {
         this.urCustominfo = urCustominfo == null ? null : urCustominfo.trim();
+    }
+
+    public String getUrSavePath() {
+        return urSavePath;
+    }
+
+    public void setUrSavePath(String urSavePath) {
+        this.urSavePath = urSavePath;
     }
 
     public Date getUrRecordtime() {

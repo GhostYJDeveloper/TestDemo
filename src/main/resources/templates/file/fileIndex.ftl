@@ -51,9 +51,7 @@
 <!-- Optional JavaScript -->
 <script src="${request.contextPath}/js/main.js"></script>
 <script>
-    $('#aDown').on('click', function () {
-        location.href = "${request.contextPath}/downloadFile/45105.jpg";
-    });
+
 </script>
 </body>
 </html>

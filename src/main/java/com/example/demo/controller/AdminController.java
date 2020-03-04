@@ -4,11 +4,9 @@ import com.example.demo.common.Result;
 import com.example.demo.common.SnowFlake;
 import com.example.demo.model.login.LoginToken;
 import com.example.demo.model.login.LoginTypeEnum;
-import com.example.demo.model.mapper.LoginTokenMapper;
-import com.example.demo.model.mapper.OrderMapper;
-import com.example.demo.model.mapper.UserMapper;
-import com.example.demo.model.mapper.WarehouseMapper;
+import com.example.demo.model.mapper.*;
 import com.example.demo.model.order.Order;
+import com.example.demo.model.uploadFile.UploadFile;
 import com.example.demo.model.user.User;
 import com.example.demo.service.FileService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -48,6 +46,9 @@ public class AdminController {
     private OrderMapper orderMapper;
 
     @Autowired
+    private UploadFileMapper uploadFileMapper;
+
+    @Autowired
     private FileService fileService;
 
     //转为ViewConfig全局配置类跳转12
@@ -74,7 +75,14 @@ public class AdminController {
         //登录进来后，页面url停留在index时校验令牌有无失效
         LoginToken currentLoginToken = (LoginToken) session.getAttribute("loginToken");
         if (currentLoginToken != null) {
-            user=userMapper.selectById(currentLoginToken.getLoginId());
+            user = userMapper.selectById(currentLoginToken.getLoginId());
+            Map<String,Object> map=new HashMap<>();
+            map.put("domainName",user.getClass().getSimpleName());
+            map.put("domainId",user.getId());
+            UploadFile file=uploadFileMapper.selectByRelated(map).get(0);
+            if(file!=null)
+                modelAndView.addObject("fileSrc", file.getUrSavePath());
+
             modelAndView.addObject("userChineseName", user.getChineseName());
             modelAndView.setViewName("/admin/index");
             return modelAndView;
@@ -86,30 +94,19 @@ public class AdminController {
             modelAndView.addObject("errorMessage", "该用户不存在或者密码错误");
             modelAndView.setViewName("/admin/error");
             return modelAndView;
-        }
-        else {
+        } else {
             //有旧令牌先删除，插入新令牌,设置令牌的Session
             loginTokenMapper.deleteByLoginId(user.getId());
             LoginToken loginToken = new LoginToken(LoginTypeEnum.普通用户, user.getId(), new Date());
             loginTokenMapper.insert(loginToken);
             session.setAttribute("loginToken", loginToken);
-            modelAndView.addObject("userChineseName", user.getChineseName());
-            modelAndView.setViewName("/admin/index");
-            return modelAndView;
-        }
-    }
 
-    @GetMapping(value = "goIndex")
-    public ModelAndView goIndex(HttpSession session) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
-        if (loginToken == null) {
-            modelAndView.addObject("errorMessage", "该用户不存在或者密码错误");
-            modelAndView.setViewName("/admin/error");
-            return modelAndView;
-        } else {
-            User user = userMapper.selectById(loginToken.getLoginId());
+            Map<String,Object> map=new HashMap<>();
+            map.put("domainName",user.getClass().getSimpleName());
+            map.put("domainId",user.getId());
+            UploadFile file=uploadFileMapper.selectByRelated(map).get(0);
+            if(file!=null)
+                modelAndView.addObject("fileSrc", file.getUrSavePath());
             modelAndView.addObject("userChineseName", user.getChineseName());
             modelAndView.setViewName("/admin/index");
             return modelAndView;
@@ -163,7 +160,13 @@ public class AdminController {
     }
 
     @PostMapping(value = "updateUser")
-    public ModelAndView updateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
+    public ModelAndView updateUser(HttpServletRequest request) throws ParseException {
+        String id = request.getParameter("id");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String chineseName = request.getParameter("chineseName");
+        String updateTime = request.getParameter("updateTime");
+
         User user = userMapper.selectById(Long.parseLong(id));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = format.parse(updateTime);
@@ -181,6 +184,20 @@ public class AdminController {
             order.setUserChineseName(user.getChineseName());
             orderMapper.update(order);
         }
+
+        String urFilename = request.getParameter("urFilename");
+        String urFiledownloaduri = request.getParameter("urFiledownloaduri");
+        String urFiletype = request.getParameter("urFiletype");
+        String urSize = request.getParameter("urSize");
+        String urSavePath = request.getParameter("urSavePath");
+        //先删除该领域下的头像附件后，重新插入
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("domainName", user.getClass().getSimpleName());
+        map.put("domainId", user.getId());
+        uploadFileMapper.deleteByRelated(map);
+        UploadFile file = new UploadFile(user.getClass().getSimpleName(), user.getId(), urFilename, urFiledownloaduri, urFiletype, Long.parseLong(urSize), "",urSavePath);
+        uploadFileMapper.insert(file);
+
         //保存文件
         return new ModelAndView("/admin/list");
     }

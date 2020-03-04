@@ -162,13 +162,6 @@
                 active[type] ? active[type].call(this) : '';
             });
         });
-        $('#btnWarehouseList').on('click', function () {
-            location.href = "${request.contextPath}/warehouse/list";
-        });
-
-        $('#btnIndex').on('click', function () {
-            location.href = "${request.contextPath}/goIndex";
-        });
     </script>
 </body>
 </html>
