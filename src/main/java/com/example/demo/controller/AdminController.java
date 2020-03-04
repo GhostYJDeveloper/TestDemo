@@ -109,8 +109,13 @@ public class AdminController {
 
             if(!fileList.isEmpty()) {
                 UploadFile file=fileList.get(0);
+
                 modelAndView.addObject("fileSrc", file.getUrSavePath());
+            }else
+            {
+                modelAndView.addObject("fileSrc", "");
             }
+
             modelAndView.addObject("userChineseName", user.getChineseName());
             modelAndView.setViewName("/admin/index");
             return modelAndView;
