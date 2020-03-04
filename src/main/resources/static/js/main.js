@@ -4,6 +4,7 @@ var urFiledownloaduri=document.querySelector("#urFiledownloaduri");
 var urFiletype=document.querySelector("#urFiletype");
 var urSize=document.querySelector("#urSize");
 var urSavePath=document.querySelector("#urSavePath");
+var urOriginalPath=document.querySelector("#urOriginalPath");
 
 var singleUploadForm = document.querySelector('#singleUploadForm');
 var singleFileUploadInput = document.querySelector('#singleFileUploadInput');
@@ -33,6 +34,7 @@ function uploadSingleFile(file) {
             urFiletype.value=response.urFiletype;
             urSize.value=response.urSize;
             urSavePath.value=response.urSavePath;
+            urOriginalPath.value=response.urOriginalPath;
         } else {
             singleFileUploadSuccess.style.display = "none";
             singleFileUploadError.innerHTML = (response && response.message) || "Some Error Occurred";

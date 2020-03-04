@@ -11,12 +11,13 @@
         <result column="Uf_size" property="urSize"/>
         <result column="Uf_customInfo" property="urCustominfo"/>
         <result column="Uf_savePath" property="urSavePath"/>
+        <result column="Uf_originalPath" property="urOriginalPath"/>
         <result column="Uf_recordTime" property="urRecordtime"/>
     </resultMap>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
-      *
+        *
         from t_uploadfile
         where Uf_id = #{urId,jdbcType=BIGINT}
     </select>
@@ -50,113 +51,14 @@
     <insert id="insert" parameterType="com.example.demo.model.uploadFile.UploadFile">
     insert into t_uploadfile (Uf_id, Uf_domainName, Uf_domainId,
       Uf_fileName, Uf_fileDownloadUri, Uf_fileType,
-      Uf_size, Uf_customInfo,Uf_savePath, Uf_recordTime
+      Uf_size, Uf_customInfo,Uf_savePath,Uf_originalPath, Uf_recordTime
       )
     values (#{urId,jdbcType=BIGINT}, #{urDomainname,jdbcType=VARCHAR}, #{urDomainid,jdbcType=BIGINT}, 
       #{urFilename,jdbcType=VARCHAR}, #{urFiledownloaduri,jdbcType=VARCHAR}, #{urFiletype,jdbcType=VARCHAR}, 
-      #{urSize,jdbcType=BIGINT}, #{urCustominfo,jdbcType=VARCHAR}, #{urSavePath,jdbcType=VARCHAR}, #{urRecordtime,jdbcType=DATE}
+      #{urSize,jdbcType=BIGINT}, #{urCustominfo,jdbcType=VARCHAR}, #{urSavePath,jdbcType=VARCHAR},#{urOriginalPath,jdbcType=VARCHAR},
+      #{urRecordtime,jdbcType=DATE}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.example.demo.model.uploadFile.UploadFile">
-        insert into t_uploadfile
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="urId != null">
-                Uf_id,
-            </if>
-            <if test="urDomainname != null">
-                Uf_domainName,
-            </if>
-            <if test="urDomainid != null">
-                Uf_domainId,
-            </if>
-            <if test="urFilename != null">
-                Uf_fileName,
-            </if>
-            <if test="urFiledownloaduri != null">
-                Uf_fileDownloadUri,
-            </if>
-            <if test="urFiletype != null">
-                Uf_fileType,
-            </if>
-            <if test="urSize != null">
-                Uf_size,
-            </if>
-            <if test="urCustominfo != null">
-                Uf_customInfo,
-            </if>
-            <if test="urSavePath != null">
-                Uf_savePath,
-            </if>
-            <if test="urRecordtime != null">
-                Uf_recordTime,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="urId != null">
-                #{urId,jdbcType=BIGINT},
-            </if>
-            <if test="urDomainname != null">
-                #{urDomainname,jdbcType=VARCHAR},
-            </if>
-            <if test="urDomainid != null">
-                #{urDomainid,jdbcType=BIGINT},
-            </if>
-            <if test="urFilename != null">
-                #{urFilename,jdbcType=VARCHAR},
-            </if>
-            <if test="urFiledownloaduri != null">
-                #{urFiledownloaduri,jdbcType=VARCHAR},
-            </if>
-            <if test="urFiletype != null">
-                #{urFiletype,jdbcType=VARCHAR},
-            </if>
-            <if test="urSize != null">
-                #{urSize,jdbcType=BIGINT},
-            </if>
-            <if test="urCustominfo != null">
-                #{urCustominfo,jdbcType=VARCHAR},
-            </if>
-            <if test="urSavePath != null">
-                #{urSavePath,jdbcType=VARCHAR},
-            </if>
-            <if test="urRecordtime != null">
-                #{urRecordtime,jdbcType=DATE},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.uploadFile.UploadFile">
-        update t_uploadfile
-        <set>
-            <if test="urDomainname != null">
-                Uf_domainName = #{urDomainname,jdbcType=VARCHAR},
-            </if>
-            <if test="urDomainid != null">
-                Uf_domainId = #{urDomainid,jdbcType=BIGINT},
-            </if>
-            <if test="urFilename != null">
-                Uf_fileName = #{urFilename,jdbcType=VARCHAR},
-            </if>
-            <if test="urFiledownloaduri != null">
-                Uf_fileDownloadUri = #{urFiledownloaduri,jdbcType=VARCHAR},
-            </if>
-            <if test="urFiletype != null">
-                Uf_fileType = #{urFiletype,jdbcType=VARCHAR},
-            </if>
-            <if test="urSize != null">
-                Uf_size = #{urSize,jdbcType=BIGINT},
-            </if>
-            <if test="urCustominfo != null">
-                Uf_customInfo = #{urCustominfo,jdbcType=VARCHAR},
-            </if>
-            <if test="urCustominfo != null">
-                Uf_savePath = #{urSavePath,jdbcType=VARCHAR},
-            </if>
-            <if test="urRecordtime != null">
-                Uf_recordTime = #{urRecordtime,jdbcType=DATE},
-            </if>
-        </set>
-        where Uf_id = #{urId,jdbcType=BIGINT}
-    </update>
     <update id="updateByPrimaryKey" parameterType="com.example.demo.model.uploadFile.UploadFile">
     update t_uploadfile
     set Uf_domainName = #{urDomainname,jdbcType=VARCHAR},
@@ -167,6 +69,7 @@
       Uf_size = #{urSize,jdbcType=BIGINT},
       Uf_customInfo = #{urCustominfo,jdbcType=VARCHAR},
        Uf_savePath = #{urSavePath,jdbcType=VARCHAR},
+       Uf_originalPath = #{urOriginalPath,jdbcType=VARCHAR},
       Uf_recordTime = #{urRecordtime,jdbcType=DATE}
     where Uf_id = #{urId,jdbcType=BIGINT}
   </update>

@@ -32,25 +32,33 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    public FileController(FileProperties fileProperties){
+    public FileController(FileProperties fileProperties) {
         this.fileStorageLocation = Paths.get(fileProperties.getUploadDir()).toAbsolutePath().normalize();
     }
+
     @RequestMapping(value = "gotoUpload")
-    public ModelAndView gotoUpload(){
+    public ModelAndView gotoUpload() {
         return new ModelAndView("file/fileIndex");
     }
 
     @PostMapping("/uploadFile")
-    public UploadFile uploadFile(@RequestParam("file") MultipartFile file){
+    public UploadFile uploadFile(@RequestParam("file") MultipartFile file) {
         String fileName = fileService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/file/downloadFile").toUriString()+"?fileName="+fileName;
+                .path("/file/downloadFile").toUriString() + "?fileName=" + fileName;
 
         Path targetLocation = fileStorageLocation.resolve(fileName);
-        String savePath=targetLocation.toUri().getPath();
-        return new UploadFile("User",1L,fileName, fileDownloadUri,
-                file.getContentType(), file.getSize(),"HeadPhoto",savePath);
+        //C:/TestDemo/src/main/resources/static/uploads/测试.png
+        String originalPath = targetLocation.toString();
+
+        String[] originalPathList = originalPath.split("\\\\");
+        int length = originalPathList.length;
+        //uploads/测试.png
+        String savePath = originalPathList[length - 2] + "/" + originalPathList[length - 1];
+
+        return new UploadFile("User", 1L, fileName, fileDownloadUri,
+                file.getContentType(), file.getSize(), "HeadPhoto", savePath, originalPath);
     }
 
 
@@ -73,7 +81,7 @@ public class FileController {
         }
 
         // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
+        if (contentType == null) {
             contentType = "application/octet-stream";
         }
 

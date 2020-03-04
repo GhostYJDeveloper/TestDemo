@@ -47,6 +47,7 @@
             <input type="hidden" name="urFiletype" id="urFiletype">
             <input type="hidden" name="urSize" id="urSize">
             <input type="hidden" name="urSavePath" id="urSavePath">
+            <input type="hidden" name="urOriginalPath" id="urOriginalPath">
         </div>
     </div>
     <div class="layui-inline">

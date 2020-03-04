@@ -24,11 +24,16 @@ public class UploadFile {
 
     private String urSavePath;
 
+    private String urOriginalPath;
+
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date urRecordtime;
 
+    public UploadFile(){
 
-    public UploadFile(String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo,String urSavePath) {
+    }
+
+    public UploadFile(String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo,String urSavePath,String urOriginalPath) {
         this.urId= SnowFlake.instant().nextId();
         this.urDomainname = urDomainname;
         this.urDomainid = urDomainid;
@@ -38,6 +43,7 @@ public class UploadFile {
         this.urSize = urSize;
         this.urCustominfo = urCustominfo;
         this.urSavePath=urSavePath;
+        this.urOriginalPath=urOriginalPath;
         this.urRecordtime = new Date();
     }
 
@@ -53,7 +59,7 @@ public class UploadFile {
      * @param urCustominfo
      * @param urRecordtime
      */
-    public UploadFile(Long urId, String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo,String urSavePath,Date urRecordtime) {
+    public UploadFile(Long urId, String urDomainname, Long urDomainid, String urFilename, String urFiledownloaduri, String urFiletype, Long urSize, String urCustominfo,String urSavePath,String urOriginalPath,Date urRecordtime) {
         this.urId = urId;
         this.urDomainname = urDomainname;
         this.urDomainid = urDomainid;
@@ -63,6 +69,7 @@ public class UploadFile {
         this.urSize = urSize;
         this.urCustominfo = urCustominfo;
         this.urSavePath=urSavePath;
+        this.urOriginalPath=urOriginalPath;
         this.urRecordtime = urRecordtime;
     }
 
@@ -136,6 +143,14 @@ public class UploadFile {
 
     public void setUrSavePath(String urSavePath) {
         this.urSavePath = urSavePath;
+    }
+
+    public String getUrOriginalPath() {
+        return urOriginalPath;
+    }
+
+    public void setUrOriginalPath(String urOriginalPath) {
+        this.urOriginalPath = urOriginalPath;
     }
 
     public Date getUrRecordtime() {

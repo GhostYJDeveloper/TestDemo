@@ -16,15 +16,11 @@ public interface UploadFileMapper {
 
     int insert(UploadFile record);
 
-    int insertSelective(UploadFile record);
-
     UploadFile selectByPrimaryKey(Long urId);
 
     List<UploadFile> selectByDomainname(String domainName);
 
     List<UploadFile> selectByRelated(Map<String,Object> map);
-
-    int updateByPrimaryKeySelective(UploadFile record);
 
     int updateByPrimaryKey(UploadFile record);
 }

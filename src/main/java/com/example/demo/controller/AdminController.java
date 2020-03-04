@@ -79,10 +79,11 @@ public class AdminController {
             Map<String,Object> map=new HashMap<>();
             map.put("domainName",user.getClass().getSimpleName());
             map.put("domainId",user.getId());
-            UploadFile file=uploadFileMapper.selectByRelated(map).get(0);
-            if(file!=null)
+            List<UploadFile> fileList=uploadFileMapper.selectByRelated(map);
+            if(!fileList.isEmpty()) {
+                UploadFile file=fileList.get(0);
                 modelAndView.addObject("fileSrc", file.getUrSavePath());
-
+            }
             modelAndView.addObject("userChineseName", user.getChineseName());
             modelAndView.setViewName("/admin/index");
             return modelAndView;
@@ -104,9 +105,12 @@ public class AdminController {
             Map<String,Object> map=new HashMap<>();
             map.put("domainName",user.getClass().getSimpleName());
             map.put("domainId",user.getId());
-            UploadFile file=uploadFileMapper.selectByRelated(map).get(0);
-            if(file!=null)
+            List<UploadFile> fileList=uploadFileMapper.selectByRelated(map);
+
+            if(!fileList.isEmpty()) {
+                UploadFile file=fileList.get(0);
                 modelAndView.addObject("fileSrc", file.getUrSavePath());
+            }
             modelAndView.addObject("userChineseName", user.getChineseName());
             modelAndView.setViewName("/admin/index");
             return modelAndView;
@@ -190,12 +194,13 @@ public class AdminController {
         String urFiletype = request.getParameter("urFiletype");
         String urSize = request.getParameter("urSize");
         String urSavePath = request.getParameter("urSavePath");
+        String urOriginalPath = request.getParameter("urOriginalPath");
         //先删除该领域下的头像附件后，重新插入
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("domainName", user.getClass().getSimpleName());
         map.put("domainId", user.getId());
         uploadFileMapper.deleteByRelated(map);
-        UploadFile file = new UploadFile(user.getClass().getSimpleName(), user.getId(), urFilename, urFiledownloaduri, urFiletype, Long.parseLong(urSize), "",urSavePath);
+        UploadFile file = new UploadFile(user.getClass().getSimpleName(), user.getId(), urFilename, urFiledownloaduri, urFiletype, Long.parseLong(urSize), "",urSavePath,urOriginalPath);
         uploadFileMapper.insert(file);
 
         //保存文件
