@@ -2,34 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.model.mapper.UploadFileResponseMapper">
   <resultMap id="BaseResultMap" type="com.example.demo.model.uploadFile.UploadFileResponse">
-    <id column="Ur_id" jdbcType="BIGINT" property="urId" />
-    <result column="Ur_domainName" jdbcType="VARCHAR" property="urDomainname" />
-    <result column="Ur_domainId" jdbcType="BIGINT" property="urDomainid" />
-    <result column="Ur_fileName" jdbcType="VARCHAR" property="urFilename" />
-    <result column="Ur_fileDownloadUri" jdbcType="VARCHAR" property="urFiledownloaduri" />
-    <result column="Ur_fileType" jdbcType="VARCHAR" property="urFiletype" />
-    <result column="Ur_size" jdbcType="BIGINT" property="urSize" />
-    <result column="Ur_customInfo" jdbcType="VARCHAR" property="urCustominfo" />
-    <result column="Ur_recordTime" jdbcType="TIMESTAMP" property="urRecordtime" />
+    <id column="ur_id" jdbcType="BIGINT" property="urId" />
+    <result column="ur_domainName" jdbcType="VARCHAR" property="urDomainname" />
+    <result column="ur_domainId" jdbcType="BIGINT" property="urDomainid" />
+    <result column="ur_fileName" jdbcType="VARCHAR" property="urFilename" />
+    <result column="ur_fileDownloadUri" jdbcType="VARCHAR" property="urFiledownloaduri" />
+    <result column="ur_fileType" jdbcType="VARCHAR" property="urFiletype" />
+    <result column="ur_size" jdbcType="BIGINT" property="urSize" />
+    <result column="ur_customInfo" jdbcType="VARCHAR" property="urCustominfo" />
+    <result column="ur_recordTime" jdbcType="TIMESTAMP" property="urRecordtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    Ur_id, Ur_domainName, Ur_domainId, Ur_fileName, Ur_fileDownloadUri, Ur_fileType, 
-    Ur_size, Ur_customInfo, Ur_recordTime
+    ur_id, ur_domainName, ur_domainId, ur_fileName, ur_fileDownloadUri, ur_fileType,
+    ur_size, ur_customInfo, ur_recordTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_uploadfileresponse
-    where Ur_id = #{urId,jdbcType=BIGINT}
+    where ur_id = #{urId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_uploadfileresponse
-    where Ur_id = #{urId,jdbcType=BIGINT}
+    where ur_id = #{urId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.demo.model.uploadFile.UploadFileResponse">
-    insert into t_uploadfileresponse (Ur_id, Ur_domainName, Ur_domainId, 
-      Ur_fileName, Ur_fileDownloadUri, Ur_fileType, 
-      Ur_size, Ur_customInfo, Ur_recordTime
+    insert into t_uploadfileresponse (ur_id, ur_domainName, ur_domainId,
+      ur_fileName, ur_fileDownloadUri, ur_fileType,
+      ur_size, ur_customInfo, ur_recordTime
       )
     values (#{urId,jdbcType=BIGINT}, #{urDomainname,jdbcType=VARCHAR}, #{urDomainid,jdbcType=BIGINT}, 
       #{urFilename,jdbcType=VARCHAR}, #{urFiledownloaduri,jdbcType=VARCHAR}, #{urFiletype,jdbcType=VARCHAR}, 
@@ -40,31 +40,31 @@
     insert into t_uploadfileresponse
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="urId != null">
-        Ur_id,
+        ur_id,
       </if>
       <if test="urDomainname != null">
-        Ur_domainName,
+        ur_domainName,
       </if>
       <if test="urDomainid != null">
-        Ur_domainId,
+        ur_domainId,
       </if>
       <if test="urFilename != null">
-        Ur_fileName,
+        ur_fileName,
       </if>
       <if test="urFiledownloaduri != null">
-        Ur_fileDownloadUri,
+        ur_fileDownloadUri,
       </if>
       <if test="urFiletype != null">
-        Ur_fileType,
+        ur_fileType,
       </if>
       <if test="urSize != null">
-        Ur_size,
+        ur_size,
       </if>
       <if test="urCustominfo != null">
-        Ur_customInfo,
+        ur_customInfo,
       </if>
       <if test="urRecordtime != null">
-        Ur_recordTime,
+        ur_recordTime,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -101,42 +101,42 @@
     update t_uploadfileresponse
     <set>
       <if test="urDomainname != null">
-        Ur_domainName = #{urDomainname,jdbcType=VARCHAR},
+        ur_domainName = #{urDomainname,jdbcType=VARCHAR},
       </if>
       <if test="urDomainid != null">
-        Ur_domainId = #{urDomainid,jdbcType=BIGINT},
+        ur_domainId = #{urDomainid,jdbcType=BIGINT},
       </if>
       <if test="urFilename != null">
-        Ur_fileName = #{urFilename,jdbcType=VARCHAR},
+        ur_fileName = #{urFilename,jdbcType=VARCHAR},
       </if>
       <if test="urFiledownloaduri != null">
-        Ur_fileDownloadUri = #{urFiledownloaduri,jdbcType=VARCHAR},
+        ur_fileDownloadUri = #{urFiledownloaduri,jdbcType=VARCHAR},
       </if>
       <if test="urFiletype != null">
-        Ur_fileType = #{urFiletype,jdbcType=VARCHAR},
+        ur_fileType = #{urFiletype,jdbcType=VARCHAR},
       </if>
       <if test="urSize != null">
-        Ur_size = #{urSize,jdbcType=BIGINT},
+        ur_size = #{urSize,jdbcType=BIGINT},
       </if>
       <if test="urCustominfo != null">
-        Ur_customInfo = #{urCustominfo,jdbcType=VARCHAR},
+        ur_customInfo = #{urCustominfo,jdbcType=VARCHAR},
       </if>
       <if test="urRecordtime != null">
-        Ur_recordTime = #{urRecordtime,jdbcType=TIMESTAMP},
+        ur_recordTime = #{urRecordtime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where Ur_id = #{urId,jdbcType=BIGINT}
+    where ur_id = #{urId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.model.uploadFile.UploadFileResponse">
     update t_uploadfileresponse
-    set Ur_domainName = #{urDomainname,jdbcType=VARCHAR},
-      Ur_domainId = #{urDomainid,jdbcType=BIGINT},
-      Ur_fileName = #{urFilename,jdbcType=VARCHAR},
-      Ur_fileDownloadUri = #{urFiledownloaduri,jdbcType=VARCHAR},
-      Ur_fileType = #{urFiletype,jdbcType=VARCHAR},
-      Ur_size = #{urSize,jdbcType=BIGINT},
-      Ur_customInfo = #{urCustominfo,jdbcType=VARCHAR},
-      Ur_recordTime = #{urRecordtime,jdbcType=TIMESTAMP}
-    where Ur_id = #{urId,jdbcType=BIGINT}
+    set ur_domainName = #{urDomainname,jdbcType=VARCHAR},
+      ur_domainId = #{urDomainid,jdbcType=BIGINT},
+      ur_fileName = #{urFilename,jdbcType=VARCHAR},
+      ur_fileDownloadUri = #{urFiledownloaduri,jdbcType=VARCHAR},
+      ur_fileType = #{urFiletype,jdbcType=VARCHAR},
+      ur_size = #{urSize,jdbcType=BIGINT},
+      ur_customInfo = #{urCustominfo,jdbcType=VARCHAR},
+      ur_recordTime = #{urRecordtime,jdbcType=TIMESTAMP}
+    where ur_id = #{urId,jdbcType=BIGINT}
   </update>
 </mapper>

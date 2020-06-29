@@ -118,7 +118,7 @@ public class AdminController {
 
     @RequestMapping(value = "goAddUser", method = RequestMethod.POST)
     public ModelAndView addUser() {
-        return new ModelAndView("/admin/index");
+        return new ModelAndView("/admin/addUser");
     }
 
     @RequestMapping(value = "goUpdateUser", method = RequestMethod.GET)
