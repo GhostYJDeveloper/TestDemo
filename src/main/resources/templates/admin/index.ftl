@@ -113,10 +113,6 @@
         $('#iframepage').attr('src', '${request.contextPath}/file/gotoUpload');
     });
 
-    $('#aUpdateUser').on('click', function () {
-        $('#iframepage').attr('src', '${request.contextPath}/goUpdateUser');
-    });
-
     $('#aUser').on('click', function () {
         $('#iframepage').attr('src', '${request.contextPath}/listUser');
     });

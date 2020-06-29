@@ -124,7 +124,7 @@ public class AdminController {
 
     @PostMapping(value = "goAddUser")
     public ModelAndView addUser() {
-        return new ModelAndView("/admin/index");
+        return new ModelAndView("/admin/addUser");
     }
 
     @GetMapping(value = "goUpdateUser")
