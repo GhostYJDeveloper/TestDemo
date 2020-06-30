@@ -43,7 +43,7 @@ public class WarehouseController {
     @PostMapping(value = "/warehouse/insertWarehouse")
     @Transactional
     public ModelAndView insertWarehouse(String name, String type, String count, String addDate) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date date = format.parse(addDate);
         //生成编号
         String number= CreateNumber.make();

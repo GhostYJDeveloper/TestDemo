@@ -65,11 +65,21 @@
         //     })
         //     return false;
         // });
-        laydate.render({
-            elem: '#addDate',
-            type: 'datetime'
+        var end=laydate.render({
+            elem: '#addDate', //
+            type: 'datetime',
+            done: function (value, date) {
+                endMax = end.config.max;
+                end.config.min = date;
+                end.config.min.month = date.month - 1;
+            },
+            change: function (value, date, endDate) {
+                var timestamp2 = Date.parse(new Date(value));
+                timestamp2 = timestamp2 / 1000;
+                end.config.min = timestamp2;
+                end.config.min.month = date.month - 1;
+            }
         });
-
     });
 
 </script>

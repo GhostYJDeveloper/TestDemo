@@ -88,7 +88,7 @@ public class OrderController {
     @Transactional
     public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber,String cargoName, String orderDate
             , String buyCount) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date date = format.parse(orderDate);
         //生成编号
         String orderNumber = CreateNumber.make();

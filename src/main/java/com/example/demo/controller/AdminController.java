@@ -161,7 +161,7 @@ public class AdminController {
 
     @PostMapping(value = "insertUser")
     public ModelAndView insertUser(String username, String password, String chineseName, String createTime) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date date = format.parse(createTime);
         User user = new User(username, chineseName, password, date);
         userMapper.insert(user);
@@ -177,7 +177,7 @@ public class AdminController {
         String updateTime = request.getParameter("updateTime");
 
         User user = userMapper.selectById(Long.parseLong(id));
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date date = format.parse(updateTime);
         if (user != null) {
             user.setUserName(username);
@@ -217,7 +217,7 @@ public class AdminController {
     public Result windowUpdateUser(String id, String username, String password, String chineseName, String updateTime) throws ParseException {
         try {
             User user = userMapper.selectById(Long.parseLong(id));
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
             Date date = format.parse(updateTime);
             if (user != null) {
                 user.setUserName(username);
