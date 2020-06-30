@@ -24,25 +24,15 @@
                 <li class="layui-nav-item"><a href="">控制台</a></li>
                 <li class="layui-nav-item"><a href="">商品管理</a></li>
                 <li class="layui-nav-item"><a id="aUser" href="javascript:;">用户列表</a></li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">其它系统</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">邮件管理</a></dd>
-                        <dd><a href="">消息管理</a></dd>
-                        <dd><a href="">授权管理</a></dd>
-                    </dl>
-                </li>
             </ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-<#--                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
                         <img src="${fileSrc}" style="width:30px;height: 30px">
                         ${userChineseName}
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a id="aUpdateUser" href="javascript:;">修改资料</a></dd>
-                        <dd><a id="aUpload" href="javascript:;">上传头像</a></dd>
                         <dd><a href="${request.contextPath}/reLogin">退出</a></dd>
                     </dl>
                 </li>
@@ -107,10 +97,6 @@
 
     $('#aUpdateUser').on('click', function () {
         $('#iframepage').attr('src', '${request.contextPath}/goUpdateUser');
-    });
-
-    $('#aUpload').on('click', function () {
-        $('#iframepage').attr('src', '${request.contextPath}/file/gotoUpload');
     });
 
     $('#aUser').on('click', function () {
