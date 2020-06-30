@@ -4,14 +4,11 @@ import com.example.demo.common.SnowFlake;
 
 import java.util.Date;
 
-/**
- * 订单类
- */
+/**订单类*/
 public class Order {
     public Order(){
 
     }
-
     public Order(long userId,String userChineseName,String cargoNumber,String cargoName,String orderNumber,Date orderDate,Integer buyCount){
         id= SnowFlake.instant().nextId();
         this.userId=userId;
@@ -22,46 +19,22 @@ public class Order {
         this.buyCount=buyCount;
         this.cargoName=cargoName;
     }
-
-
-    /**
-     * 订单Id
-     */
+    /**订单Id*/
     private long id;
-
-    /**
-     * 下单用户Id
-     */
+    /**下单用户Id*/
     private long userId;
-
-    /**
-     * 下单用户中文名
-     */
+    /**下单用户中文名*/
     private String userChineseName;
-
-    /**
-     * 货物编号
-     */
+    /** 货物编号*/
     private String cargoNumber;
-    /**
-     * 货物名称
-     */
+    /**货物名称*/
     private String cargoName;
-
-    /**
-     * 订单编号
-     */
+    /** 订单编号*/
     private String orderNumber;
-
-    /**
-     * 下单日期
-     */
+    /**下单日期*/
     private Date orderDate;
-    /**
-     * 购买数量
-     */
+    /*购买数量*/
     private Integer buyCount;
-
 
     public long getId() {
         return id;
