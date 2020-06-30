@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.LoginTokenHelper;
 import com.example.demo.common.Result;
 import com.example.demo.model.login.LoginToken;
 import com.example.demo.model.mapper.LoginTokenMapper;
@@ -73,23 +74,12 @@ public class OrderController {
 
     @GetMapping(value = "/order/list")
     public ModelAndView gotoList(HttpSession session) {
-        //先通过Session判断令牌有无失效
-        LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
-        if (loginToken == null) {
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("errorMessage", "令牌失效,请先登录。");
+        //验证登录令牌
+        if(!LoginTokenHelper.isLoginTokenDisabled(session)){
+            ModelAndView modelAndView=new ModelAndView();
+            modelAndView.addObject("errorMessage", "该用户的令牌不存在,请先登录。");
             modelAndView.setViewName("/admin/error");
             return modelAndView;
-        }
-        //如果Session没有失效，再去表里查看令牌有没有被删除
-        else {
-            loginToken = loginTokenMapper.selectById(loginToken.getId());
-            if (loginToken == null) {
-                ModelAndView modelAndView = new ModelAndView();
-                modelAndView.addObject("errorMessage", "该用户的令牌不存在,请先登录。");
-                modelAndView.setViewName("/admin/error");
-                return modelAndView;
-            }
         }
         return new ModelAndView("/order/list");
     }
