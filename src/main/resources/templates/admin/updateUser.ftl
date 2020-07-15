@@ -76,7 +76,7 @@
 <script src="${request.contextPath}/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript">
     var d = new Date();
-    var datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+    var datetime = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     $("#updateTime").val(datetime);
 
     //上传附件弹框
