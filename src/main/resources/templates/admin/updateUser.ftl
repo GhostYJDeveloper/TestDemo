@@ -53,7 +53,7 @@
     <div class="layui-inline">
         <label class="layui-form-label">修改时间</label>
         <div class="layui-input-block">
-            <input type="text" name="updateTime" id="updateTime" readonly class="layui-input">
+            <input type="text" name="updateTime" id="updateTime" class="layui-input">
         </div>
     </div>
     <br/> <br/> <br/> <br/>
@@ -80,8 +80,8 @@
     $("#updateTime").val(datetime);
 
     //上传附件弹框
-    layui.use(["jquery",'form', 'layer'], function () {
-        var $ = layui.$,layer = layui.layer,form = layui.form;
+    layui.use(["jquery",'form', 'layer', 'laydate'], function () {
+        var $ = layui.$,layer = layui.layer,form = layui.form,laydate = layui.laydate;;
         $("#uploadFile").click(function(){
             uploadFile();
         });
@@ -100,6 +100,21 @@
                 }
             });
         }
+        var end=laydate.render({
+            elem: '#updateTime', //
+            type: 'datetime',
+            done: function (value, date) {
+                endMax = end.config.max;
+                end.config.min = date;
+                end.config.min.month = date.month - 1;
+            },
+            change: function (value, date, endDate) {
+                var timestamp2 = Date.parse(new Date(value));
+                timestamp2 = timestamp2 / 1000;
+                end.config.min = timestamp2;
+                end.config.min.month = date.month - 1;
+            }
+        });
     });
 </script>
 
