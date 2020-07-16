@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
@@ -72,17 +73,19 @@ public class AdminController {
     public ModelAndView index(String userName, String password, HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
         User user = null;
+        Random random = new Random();
+        int k = random.nextInt();
         //登录进来后，页面url停留在index时校验令牌有无失效
         LoginToken currentLoginToken = (LoginToken) session.getAttribute("loginToken");
         if (currentLoginToken != null) {
             user = userMapper.selectById(currentLoginToken.getLoginId());
-            Map<String,Object> map=new HashMap<>();
-            map.put("domainName",user.getClass().getSimpleName());
-            map.put("domainId",user.getId());
-            List<UploadFile> fileList=uploadFileMapper.selectByRelated(map);
-            if(!fileList.isEmpty()) {
-                UploadFile file=fileList.get(0);
-                modelAndView.addObject("fileSrc", file.getUrSavePath());
+            Map<String, Object> map = new HashMap<>();
+            map.put("domainName", user.getClass().getSimpleName());
+            map.put("domainId", user.getId());
+            List<UploadFile> fileList = uploadFileMapper.selectByRelated(map);
+            if (!fileList.isEmpty()) {
+                UploadFile file = fileList.get(0);
+                modelAndView.addObject("fileSrc", file.getUrSavePath() + '?' + k);
             }
             modelAndView.addObject("userChineseName", user.getChineseName());
             modelAndView.setViewName("/admin/index");
@@ -102,17 +105,16 @@ public class AdminController {
             loginTokenMapper.insert(loginToken);
             session.setAttribute("loginToken", loginToken);
 
-            Map<String,Object> map=new HashMap<>();
-            map.put("domainName",user.getClass().getSimpleName());
-            map.put("domainId",user.getId());
-            List<UploadFile> fileList=uploadFileMapper.selectByRelated(map);
+            Map<String, Object> map = new HashMap<>();
+            map.put("domainName", user.getClass().getSimpleName());
+            map.put("domainId", user.getId());
+            List<UploadFile> fileList = uploadFileMapper.selectByRelated(map);
 
-            if(!fileList.isEmpty()) {
-                UploadFile file=fileList.get(0);
+            if (!fileList.isEmpty()) {
+                UploadFile file = fileList.get(0);
 
-                modelAndView.addObject("fileSrc", file.getUrSavePath());
-            }else
-            {
+                modelAndView.addObject("fileSrc", file.getUrSavePath() + '?' + k);
+            } else {
                 modelAndView.addObject("fileSrc", "");
             }
 
@@ -205,11 +207,10 @@ public class AdminController {
         map.put("domainName", user.getClass().getSimpleName());
         map.put("domainId", user.getId());
         uploadFileMapper.deleteByRelated(map);
-        UploadFile file = new UploadFile(user.getClass().getSimpleName(), user.getId(), urFilename, urFiledownloaduri, urFiletype, Long.parseLong(urSize), "",urSavePath,urOriginalPath);
+        UploadFile file = new UploadFile(user.getClass().getSimpleName(), user.getId(), urFilename, urFiledownloaduri, urFiletype, Long.parseLong(urSize), "", urSavePath, urOriginalPath);
         uploadFileMapper.insert(file);
 
-        //保存文件
-        return new ModelAndView("/admin/list");
+        return new ModelAndView("redirect:/index");
     }
 
     @PostMapping(value = "windowUpdateUser")

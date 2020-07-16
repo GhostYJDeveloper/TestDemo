@@ -14,7 +14,10 @@
         padding: 0;
     }
 </style>
-
+<script language="JavaScript" type="text/javascript" >
+    if (window != top)
+        top.location.href = location.href;
+</script>
 <body class="layui-layout-body">
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
