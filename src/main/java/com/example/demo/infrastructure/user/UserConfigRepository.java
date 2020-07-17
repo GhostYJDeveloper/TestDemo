@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
@@ -120,7 +121,9 @@ public class UserConfigRepository implements IUserConfigRepository {
                 sqlRowSet.getString("u_chineseName"),
                 sqlRowSet.getString("u_passWord"),
                 sqlRowSet.getTimestamp("u_createTime"),
-                sqlRowSet.getTimestamp("u_updateTime"));
+                sqlRowSet.getTimestamp("u_updateTime"),
+                sqlRowSet.getBigDecimal("u_money"),
+                sqlRowSet.getTimestamp("u_rechargeTime"));
     }
 
     /**
@@ -134,7 +137,8 @@ public class UserConfigRepository implements IUserConfigRepository {
         Map map = jdbcTemplate.queryForMap("select * from t_user where u_id=? order by u_id limit 1;", id);
         try {
             return new User((Long) map.get("u_id"), (String) map.get("u_chineseName"), (String) map.get("u_userName")
-                    , (String) map.get("u_passWord"), (Date) map.get("u_createTime"), (Date) map.get("u_updateTime"));
+                    , (String) map.get("u_passWord"), (Date) map.get("u_createTime"), (Date) map.get("u_updateTime")
+                    ,(BigDecimal)map.get("u_money"),(Date)map.get("u_rechargeTime"));
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

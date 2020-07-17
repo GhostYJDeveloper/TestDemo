@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.kafka.connect.data.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,13 +44,13 @@ public class WarehouseController {
 
     @PostMapping(value = "/warehouse/insertWarehouse")
     @Transactional
-    public ModelAndView insertWarehouse(String name, String type, String count, String addDate) throws ParseException {
+    public ModelAndView insertWarehouse(String name, String type, String count, String price,String addDate) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date date = format.parse(addDate);
         //生成编号
         String number= CreateNumber.make();
         Warehouse warehouse = new Warehouse(number, name,Integer.parseInt(type),
-                Integer.parseInt(count), date);
+                Integer.parseInt(count),date,new BigDecimal(price));
         warehouseMapper.insert(warehouse);
         return new ModelAndView("/warehouse/list");
     }

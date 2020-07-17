@@ -48,6 +48,18 @@
                 <input type="text" name="buyCount" readonly class="layui-input">
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">单价</label>
+            <div class="layui-input-inline">
+                <input type="text" name="price" readonly class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">总价</label>
+            <div class="layui-input-inline">
+                <input type="text" name="totalPrice" readonly class="layui-input">
+            </div>
+        </div>
     </div>
 </form>
 <script src="${request.contextPath}/js/jquery-3.2.1.min.js"></script>
@@ -70,7 +82,9 @@
                 "cargoNumber": data.cargoNumber,
                 "cargoName": data.cargoName,
                 "orderDate": data.orderDate,
-                "buyCount": data.buyCount
+                "buyCount": data.buyCount,
+                "price": data.price,
+                "totalPrice": data.totalPrice
             });
         }
     });

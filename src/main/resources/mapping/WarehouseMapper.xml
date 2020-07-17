@@ -9,17 +9,18 @@
         <result column="wh_count" property="count"/>
         <result column="wh_addDate" property="addDate"/>
         <result column="wh_outDate" property="outDate"/>
+        <result column="wh_price" property="price"/>
     </resultMap>
     <insert id="insert" parameterType="com.example.demo.model.warehouse.Warehouse">
-        insert into t_warehouse (wh_id, wh_number, wh_name, wh_type, wh_count, wh_addDate, wh_outDate)
+        insert into t_warehouse (wh_id, wh_number, wh_name, wh_type, wh_count, wh_addDate, wh_outDate,wh_price)
         values (#{id}, #{number}, #{name}, #{type,typeHandler=com.example.demo.common.WarehouseEnumStatusHandler}, #{count},
-                #{addDate}, #{outDate})
+                #{addDate}, #{outDate},#{price})
     </insert>
 
     <update id="update" parameterType="com.example.demo.model.warehouse.Warehouse">
         UPDATE t_warehouse
         SET wh_number=#{number},wh_name=#{name},wh_type=#{type,typeHandler=com.example.demo.common.WarehouseEnumStatusHandler}
-            ,wh_count=#{count},wh_addDate=#{addDate},wh_outDate=#{outDate}
+            ,wh_count=#{count},wh_addDate=#{addDate},wh_outDate=#{outDate},wh_price=#{price}
         WHERE wh_id=#{id}
     </update>
 

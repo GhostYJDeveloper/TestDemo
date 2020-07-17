@@ -1,7 +1,9 @@
 package com.example.demo.model.order;
 
 import com.example.demo.common.SnowFlake;
+import org.apache.kafka.connect.data.Decimal;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -12,15 +14,17 @@ public class Order {
 
     }
 
-    public Order(long userId,String userChineseName,String cargoNumber,String cargoName,String orderNumber,Date orderDate,Integer buyCount){
+    public Order(long userId,String userChineseName,String cargoNumber,String cargoName,String orderNumber,Integer buyCount
+    ,BigDecimal price,BigDecimal totalPrice){
         id= SnowFlake.instant().nextId();
         this.userId=userId;
         this.userChineseName=userChineseName;
         this.cargoNumber=cargoNumber;
         this.orderNumber=orderNumber;
-        this.orderDate=orderDate;
         this.buyCount=buyCount;
         this.cargoName=cargoName;
+        this.price=price;
+        this.totalPrice=totalPrice;
     }
 
 
@@ -62,6 +66,15 @@ public class Order {
      */
     private Integer buyCount;
 
+    /**
+     * 货物单价
+     */
+    private BigDecimal price;
+
+    /**
+     * 订单总价
+     */
+    private BigDecimal totalPrice;
 
     public long getId() {
         return id;
@@ -125,4 +138,19 @@ public class Order {
         this.cargoName = cargoName;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }

@@ -1,8 +1,10 @@
 package com.example.demo.model.user;
 import com.example.demo.common.SnowFlake;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.kafka.connect.data.Decimal;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 public class User {
     private long id;
@@ -13,6 +15,15 @@ public class User {
     private Date createTime;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+    /**
+     * 钱
+     */
+    private BigDecimal money;
+    /**
+     * 上次充值时间
+     */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date rechargeTime;
     public User() {
 
     }
@@ -33,13 +44,15 @@ public class User {
      * @param passWord
      * @param createTime
      */
-    public User(Long id,String userName,String chineseName,  String passWord, Date createTime,Date updateTime) {
+    public User(Long id,String userName,String chineseName,  String passWord, Date createTime,Date updateTime,BigDecimal money,Date rechargeTime) {
         this.id =id;
         this.chineseName = chineseName;
         this.userName = userName;
         this.passWord = passWord;
         this.createTime = createTime;
         this.updateTime=updateTime;
+        this.money=money;
+        this.rechargeTime=rechargeTime;
     }
 
     public long getId() {
@@ -88,6 +101,22 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
+
+    public Date getRechargeTime() {
+        return rechargeTime;
+    }
+
+    public void setRechargeTime(Date rechargeTime) {
+        this.rechargeTime = rechargeTime;
     }
 
     @Override

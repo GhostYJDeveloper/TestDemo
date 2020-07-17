@@ -24,7 +24,9 @@ public interface UserMapper {
             @Result(property = "userName", column = "u_userName"),
             @Result(property = "chineseName", column = "u_chineseName"),
             @Result(property = "passWord", column = "u_passWord"),
-            @Result(property = "createTime", column = "u_createTime")
+            @Result(property = "createTime", column = "u_createTime"),
+            @Result(property = "money", column = "u_money"),
+            @Result(property = "rechargeTime", column = "u_rechargeTime")
     })
     User selectById(long id);
 

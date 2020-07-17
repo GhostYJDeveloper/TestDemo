@@ -29,7 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,11 +56,14 @@ public class OrderController {
         Warehouse warehouse = null;
         if (loginToken != null)
             user = userMapper.selectById(loginToken.getLoginId());
-        if(id != null)
+        if (id != null)
             warehouse = warehouseMapper.selectById(Long.parseLong(id));
+        DecimalFormat df = new DecimalFormat("0.00");
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("number", warehouse.getNumber());
         modelAndView.addObject("name", warehouse.getName());
+        modelAndView.addObject("price", df.format(warehouse.getPrice()));
         if (user != null) {
             modelAndView.addObject("chineseName", user.getChineseName());
             modelAndView.addObject("userId", String.valueOf(user.getId()));
@@ -75,8 +80,8 @@ public class OrderController {
     @GetMapping(value = "/order/list")
     public ModelAndView gotoList(HttpSession session) {
         //验证登录令牌
-        if(!LoginTokenHelper.isLoginTokenDisabled(session)){
-            ModelAndView modelAndView=new ModelAndView();
+        if (!LoginTokenHelper.isLoginTokenDisabled(session)) {
+            ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("errorMessage", "该用户的令牌不存在,请先登录。");
             modelAndView.setViewName("/admin/error");
             return modelAndView;
@@ -86,13 +91,25 @@ public class OrderController {
 
     @PostMapping(value = "/order/insertOrder")
     @Transactional
-    public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber,String cargoName, String orderDate
-            , String buyCount) throws ParseException {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        Date date = format.parse(orderDate);
+    public ModelAndView insertOrder(String userId, String userChineseName, String cargoNumber, String cargoName
+            , String buyCount, String price, String totalPrice) throws ParseException {
+        ModelAndView modelAndView = new ModelAndView();
+        //判断当前用户余额 够不够下单
+        User user = userMapper.selectById(Long.parseLong(userId));
+        if (user == null) {
+            modelAndView.addObject("errorMessage", "该用户的令牌不存在,请先登录。");
+            modelAndView.setViewName("/admin/error");
+        } else {
+            if (user.getMoney().compareTo(new BigDecimal(totalPrice)) == -1) {
+                modelAndView.addObject("errorMessage", "余额不足，请充值。");
+                modelAndView.setViewName("/admin/error");
+                return modelAndView;
+            }
+        }
         //生成编号
         String orderNumber = CreateNumber.make();
-        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber,cargoName, orderNumber, date, Integer.parseInt(buyCount));
+        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, cargoName, orderNumber, Integer.parseInt(buyCount),
+                new BigDecimal(price), new BigDecimal(totalPrice));
         orderMapper.insert(order);
 
         //减库存
@@ -100,7 +117,13 @@ public class OrderController {
         int count = warehouse.getCount() - Integer.parseInt(buyCount);
         warehouse.setCount(count);
         warehouseMapper.update(warehouse);
-        return new ModelAndView("/warehouse/list");
+        modelAndView.setViewName("/warehouse/list");
+
+        //扣除用户的钱
+        user.setMoney(user.getMoney().subtract(new BigDecimal(totalPrice)));
+        userMapper.update(user);
+
+        return modelAndView;
     }
 
     @GetMapping(value = "/rest/order")
@@ -188,7 +211,7 @@ public class OrderController {
             idList.add(id);
 
             //加库存
-            Order order=orderMapper.selectById(id);
+            Order order = orderMapper.selectById(id);
             Warehouse warehouse = warehouseMapper.selectByNumber(order.getCargoNumber());
             warehouse.setCount(warehouse.getCount() + order.getBuyCount());
             warehouseMapper.update(warehouse);

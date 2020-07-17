@@ -2,7 +2,9 @@ package com.example.demo.model.warehouse;
 
 import com.example.demo.common.SnowFlake;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.kafka.connect.data.Decimal;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -15,13 +17,14 @@ public class Warehouse {
     }
 
     public Warehouse(String number,String name,Integer type,Integer count
-    ,Date addDate){
+    ,Date addDate,BigDecimal price){
         this.id= SnowFlake.instant().nextId();
         this.number=number;
         this.name=name;
         this.type=WarehouseTypeEnum.getWarehouseType(type);
         this.count=count;
         this.addDate=addDate;
+        this.price=price;
     }
 
     /**
@@ -35,7 +38,7 @@ public class Warehouse {
      * @param outDate
      */
     public Warehouse(long id,String number,String name,WarehouseTypeEnum type,Integer count
-            ,Date addDate,Date outDate){
+            ,Date addDate,Date outDate,BigDecimal price){
         this.id= id;
         this.number=number;
         this.name=name;
@@ -43,6 +46,7 @@ public class Warehouse {
         this.count=count;
         this.addDate=addDate;
         this.outDate=outDate;
+        this.price=price;
     }
 
     /**
@@ -81,6 +85,11 @@ public class Warehouse {
      */
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date outDate;
+
+    /**
+     * 货物单价
+     */
+    private BigDecimal price;
 
     public long getId() {
         return id;
@@ -136,6 +145,14 @@ public class Warehouse {
 
     public void setOutDate(Date outDate) {
         this.outDate = outDate;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }
 

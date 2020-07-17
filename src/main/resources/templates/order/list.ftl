@@ -63,6 +63,8 @@
                     {field: 'orderNumber', title: '订单编号', align: 'center'},
                     {field: 'orderDate', title: '下单日期', align: 'center'},
                     {field: 'buyCount', title: '下单数量', align: 'center'},
+                    {field: 'price', title: '单价', align: 'center'},
+                    {field: 'totalPrice', title: '总价', align: 'center'},
                     {title: '操作', align: 'center', width: 180, fixed: 'right', toolbar: '#table-action'}
                 ]],
                 text: {none: '无数据'},

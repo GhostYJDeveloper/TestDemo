@@ -73,6 +73,7 @@
                 {field: 'name', title: '货物名称', align: 'center'},
                 {field: 'type', title: '货物类别', align: 'center'},
                 {field: 'count', title: '库存量', align: 'center'},
+                {field: 'price', title: '单价', align: 'center'},
                 {field: 'addDate', title: '入库时间', align: 'center'},
                 {title: '操作', align: 'center', width: 180, fixed: 'right', toolbar: '#table-action'}
             ]],

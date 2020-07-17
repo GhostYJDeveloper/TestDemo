@@ -31,6 +31,12 @@
             </div>
         </div>
         <div class="layui-inline">
+            <label class="layui-form-label">单价</label>
+            <div class="layui-input-inline">
+                <input type="text" name="price" readonly class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
             <label class="layui-form-label">入库时间</label>
             <div class="layui-input-inline">
                 <input type="text" name="addDate" readonly class="layui-input">

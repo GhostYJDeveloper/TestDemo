@@ -14,6 +14,7 @@
         padding: 0;
     }
 </style>
+<!--页面回刷时，跳出Iframe，刷新整个页面-->
 <script language="JavaScript" type="text/javascript" >
     if (window != top)
         top.location.href = location.href;
@@ -36,6 +37,7 @@
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a id="aUpdateUser" href="javascript:;">修改资料</a></dd>
+                        <dd><a id="aRecharge" href="javascript:;">充值</a></dd>
                         <dd><a href="${request.contextPath}/reLogin">退出</a></dd>
                     </dl>
                 </li>
@@ -75,6 +77,7 @@
         <div class="layui-footer">
             <!-- 底部固定区域 -->
             GhostYJ SMM 框架
+            <span style="float: right;font-family:'STXinwei';font-size: medium;color: #ff0000">当前余额：${money} 元</span>
         </div>
     </div>
 </body>
@@ -100,6 +103,10 @@
 
     $('#aUpdateUser').on('click', function () {
         $('#iframepage').attr('src', '${request.contextPath}/goUpdateUser');
+    });
+
+    $('#aRecharge').on('click', function () {
+        $('#iframepage').attr('src', '${request.contextPath}/goRecharge');
     });
 
     $('#aUser').on('click', function () {

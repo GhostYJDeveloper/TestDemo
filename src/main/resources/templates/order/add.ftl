@@ -36,16 +36,22 @@
     <div class="layui-input-item">
         <label class="layui-form-label">购买的数量</label>
         <div class="layui-input-block">
-            <input name="buyCount" autocomplete="off" class="layui-input" type="text">
+            <input name="buyCount" lay-verify="required" id="inputBuyCount" autocomplete="off" class="layui-input" type="text" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'');calculationPrice();" onchange="calculationPrice();">
+        </div>
+    </div>
+    <div class="layui-input-item">
+        <label class="layui-form-label">单价</label>
+        <div class="layui-input-block">
+            <input name="price" id="inputPrice" autocomplete="off" readonly class="layui-input" type="text" value="${price}">
+        </div>
+    </div>
+    <div class="layui-input-item">
+        <label class="layui-form-label">总价</label>
+        <div class="layui-input-block">
+            <input name="totalPrice" lay-verify="required" id="inputTotalPrice" autocomplete="off" class="layui-input" type="text">
         </div>
     </div>
     <br/>
-    <div class="layui-form-item">
-        <label class="layui-form-label">下单日期</label>
-        <div class="layui-input-block">
-            <input type="text" name="orderDate" id="orderDate" readonly class="layui-input">
-        </div>
-    </div>
     <br/> <br/> <br/> <br/>
     <div class="layui-form-item">
         <div class="layui-input-block">
@@ -55,6 +61,17 @@
 </form>
 <script src="${request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${request.contextPath}/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+    function calculationPrice() {
+        var buyCount= document.getElementById("inputBuyCount").value;
+        var price=document.getElementById("inputPrice").value;
+        console.log(parseFloat(price));
+        var totalPrice=parseInt(buyCount) * parseFloat(price);
+        if(isNaN(totalPrice))
+            totalPrice=0;
+        document.getElementById("inputTotalPrice").value=totalPrice;
+    }
+</script>
 <script type="text/javascript">
     layui.use(['form', 'layer', 'laydate'], function () {
         var layer = layui.layer, form = layui.form, $ = layui.jquery, laydate = layui.laydate;

@@ -2,6 +2,7 @@ package com.example.demo.model.order;
 
 import com.example.demo.model.warehouse.WarehouseTypeEnum;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -20,6 +21,8 @@ public class OrderConfig {
         this.warehouseName=warehouseName;
         this.type=type;
         this.buyCount = order.getBuyCount();
+        this.price=order.getPrice();
+        this.totalPrice=order.getTotalPrice();
     }
 
 
@@ -79,6 +82,17 @@ public class OrderConfig {
      * 下单数量
      */
     private Integer buyCount;
+
+    /**
+     * 单价
+     */
+    private BigDecimal price;
+
+    /**
+     * 总价
+     */
+    private BigDecimal totalPrice;
+
 
     public long getId() {
         return id;
@@ -149,5 +163,21 @@ public class OrderConfig {
 
     public void setBuyCount(Integer buyCount) {
         this.buyCount = buyCount;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

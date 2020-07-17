@@ -39,6 +39,13 @@
                    type="text">
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">单价</label>
+        <div class="layui-input-block">
+            <input name="price" autocomplete="off" class="layui-input"
+                   type="text">
+        </div>
+    </div>
     <div class="layui-inline">
         <label class="layui-form-label">入库时间</label>
         <div class="layui-input-block">

@@ -27,6 +27,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,6 +89,7 @@ public class AdminController {
                 modelAndView.addObject("fileSrc", file.getUrSavePath() + '?' + k);
             }
             modelAndView.addObject("userChineseName", user.getChineseName());
+            modelAndView.addObject("money", user.getMoney());
             modelAndView.setViewName("/admin/index");
             return modelAndView;
         }
@@ -119,6 +121,7 @@ public class AdminController {
             }
 
             modelAndView.addObject("userChineseName", user.getChineseName());
+            modelAndView.addObject("money", user.getMoney());
             modelAndView.setViewName("/admin/index");
             return modelAndView;
         }
@@ -129,21 +132,34 @@ public class AdminController {
         return new ModelAndView("/admin/addUser");
     }
 
-    @GetMapping(value = "goUpdateUser")
-    public ModelAndView updateUser(HttpSession session) {
+    @GetMapping(value = "goRecharge")
+    public ModelAndView goRecharge(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
         LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
         if (loginToken == null) {
-            ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("errorMessage", "请先登录。");
             modelAndView.setViewName("/admin/error");
-            return modelAndView;
         } else {
             User user = userMapper.selectById(loginToken.getLoginId());
-            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("user", user);
+            modelAndView.setViewName("/admin/recharge");
+        }
+        return modelAndView;
+    }
+
+    @GetMapping(value = "goUpdateUser")
+    public ModelAndView updateUser(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
+        LoginToken loginToken = (LoginToken) session.getAttribute("loginToken");
+        if (loginToken == null) {
+            modelAndView.addObject("errorMessage", "请先登录。");
+            modelAndView.setViewName("/admin/error");
+        } else {
+            User user = userMapper.selectById(loginToken.getLoginId());
             modelAndView.addObject("user", user);
             modelAndView.setViewName("/admin/updateUser");
-            return modelAndView;
         }
+        return modelAndView;
     }
 
     @GetMapping(value = "edit")
@@ -168,6 +184,22 @@ public class AdminController {
         User user = new User(username, chineseName, password, date);
         userMapper.insert(user);
         return new ModelAndView("/admin/list");
+    }
+
+    @PostMapping(value = "recharge")
+    public ModelAndView recharge(String userId,String money){
+        ModelAndView modelAndView=new ModelAndView();
+        User user=userMapper.selectById(Long.parseLong(userId));
+        if(user==null){
+            modelAndView.addObject("errorMessage", "当前用户不存在或者登录已失效。");
+            modelAndView.setViewName("/admin/error");
+        }
+        else{
+            user.setMoney(user.getMoney().add(new BigDecimal(money)));
+            userMapper.update(user);
+            modelAndView.setViewName("redirect:/index");
+        }
+        return modelAndView;
     }
 
     @PostMapping(value = "updateUser")
@@ -209,7 +241,7 @@ public class AdminController {
         uploadFileMapper.deleteByRelated(map);
         UploadFile file = new UploadFile(user.getClass().getSimpleName(), user.getId(), urFilename, urFiledownloaduri, urFiletype, Long.parseLong(urSize), "", urSavePath, urOriginalPath);
         uploadFileMapper.insert(file);
-
+        //跳转到index路由方法,而不是index.ftl页面
         return new ModelAndView("redirect:/index");
     }
 
