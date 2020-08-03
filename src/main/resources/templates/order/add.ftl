@@ -48,7 +48,7 @@
     <div class="layui-input-item">
         <label class="layui-form-label">总价</label>
         <div class="layui-input-block">
-            <input name="totalPrice" lay-verify="required" id="inputTotalPrice" autocomplete="off" class="layui-input" type="text">
+            <input name="totalPrice" lay-verify="required" readonly id="inputTotalPrice" autocomplete="off" class="layui-input" type="text">
         </div>
     </div>
     <br/>

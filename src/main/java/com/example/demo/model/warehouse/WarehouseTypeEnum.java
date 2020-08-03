@@ -7,7 +7,9 @@ public enum WarehouseTypeEnum {
 
     运动类(1, "SUPPORT"),
     食品类(2, "FOOD"),
-    家具类(3, "FURNITURE");
+    家具类(3, "FURNITURE"),
+    电脑类(4, "COMPUTER"),
+    键盘类(5, "KEYBOARD");
 
     // 成员变量
     private Integer code;

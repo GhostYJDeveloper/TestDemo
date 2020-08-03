@@ -99,6 +99,7 @@ public class OrderController {
         if (user == null) {
             modelAndView.addObject("errorMessage", "该用户的令牌不存在,请先登录。");
             modelAndView.setViewName("/admin/error");
+            return modelAndView;
         } else {
             if (user.getMoney().compareTo(new BigDecimal(totalPrice)) == -1) {
                 modelAndView.addObject("errorMessage", "余额不足，请充值。");
@@ -117,12 +118,12 @@ public class OrderController {
         int count = warehouse.getCount() - Integer.parseInt(buyCount);
         warehouse.setCount(count);
         warehouseMapper.update(warehouse);
-        modelAndView.setViewName("/warehouse/list");
 
         //扣除用户的钱
         user.setMoney(user.getMoney().subtract(new BigDecimal(totalPrice)));
         userMapper.update(user);
 
+        modelAndView.setViewName("redirect:/index");
         return modelAndView;
     }
 
