@@ -40,33 +40,24 @@
 
     <!--根据货物类型查询-->
     <select id="selectByNumber" resultMap="WarehouseMap" parameterType="java.lang.String">
-        select TOP 1 *
+        select *
         from t_warehouse
-        where wh_number = #{number}
+        where wh_number = #{number} limit 1
     </select>
 
 
     <!--分页查询-->
     <select id="selectByPage" resultMap="WarehouseMap" parameterType="map">
-        select  TOP ${pageSize} * from t_warehouse
+        select * from t_warehouse
         WHERE 1=1
         -- 为0时认定为'',此处不筛选
         <if test="name != null and name!=''">
-            AND wh_name=${name}
+            AND wh_name=#{name}
         </if>
         <if test="type != null and type!=''">
-            AND wh_type=${type}
+            AND wh_type=#{type}
         </if>
-        AND wh_id NOT IN
-        (SELECT TOP ${currentIndex} wh_id from t_warehouse
-        WHERE 1=1
-        <if test="name != null and name!=''">
-            AND wh_name=${name}
-        </if>
-        <if test="type != null and type!=''">
-            AND wh_type=${type}
-        </if>
-        )
+        limit #{currentIndex} , #{pageSize}
     </select>
 
     <select id="selectByNumberList" resultMap="WarehouseMap">

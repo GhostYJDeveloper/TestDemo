@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.model.mapper.UploadFileMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.model.uploadFile.UploadFile">
+        <id column="uf_id" property="urId"/>
+        <result column="uf_domainName" property="urDomainname"/>
+        <result column="uf_domainId" property="urDomainid"/>
+        <result column="uf_fileName" property="urFilename"/>
+        <result column="uf_fileDownloadUri" property="urFiledownloaduri"/>
+        <result column="uf_fileType" property="urFiletype"/>
+        <result column="uf_size" property="urSize"/>
+        <result column="uf_customInfo" property="urCustominfo"/>
+        <result column="uf_savePath" property="urSavePath"/>
+        <result column="uf_originalPath" property="urOriginalPath"/>
+        <result column="uf_recordTime" property="urRecordtime"/>
+    </resultMap>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        *
+        from t_uploadfile
+        where uf_id = #{urId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByDomainname" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        *
+        from t_uploadfile
+        where uf_domainName = #{urDomainname,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByRelated" parameterType="map" resultMap="BaseResultMap">
+        select
+       *
+        from t_uploadfile
+        where 1=1
+        <if test="domainName != null and domainName!=''">
+            AND uf_domainName=#{domainName}
+        </if>
+        <if test="domainId != null and domainId!=''">
+            AND uf_domainId=#{domainId}
+        </if>
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_uploadfile
+    where uf_id = #{urId,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByRelated" parameterType="map">
+    delete from t_uploadfile
+    where uf_domainName=#{domainName} and uf_domainId=#{domainId}
+    </delete>
+    <insert id="insert" parameterType="com.example.demo.model.uploadFile.UploadFile">
+    insert into t_uploadfile (uf_id, uf_domainName, uf_domainId,
+      uf_fileName, uf_fileDownloadUri, uf_fileType,
+      uf_size, uf_customInfo,Uf_savePath,uf_originalPath, uf_recordTime
+      )
+    values (#{urId,jdbcType=BIGINT}, #{urDomainname,jdbcType=VARCHAR}, #{urDomainid,jdbcType=BIGINT}, 
+      #{urFilename,jdbcType=VARCHAR}, #{urFiledownloaduri,jdbcType=VARCHAR}, #{urFiletype,jdbcType=VARCHAR}, 
+      #{urSize,jdbcType=BIGINT}, #{urCustominfo,jdbcType=VARCHAR}, #{urSavePath,jdbcType=VARCHAR},#{urOriginalPath,jdbcType=VARCHAR},
+      #{urRecordtime,jdbcType=DATE}
+      )
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.example.demo.model.uploadFile.UploadFile">
+    update t_uploadfile
+    set uf_domainName = #{urDomainname,jdbcType=VARCHAR},
+      uf_domainId = #{urDomainid,jdbcType=BIGINT},
+      uf_fileName = #{urFilename,jdbcType=VARCHAR},
+      uf_fileDownloadUri = #{urFiledownloaduri,jdbcType=VARCHAR},
+      uf_fileType = #{urFiletype,jdbcType=VARCHAR},
+      uf_size = #{urSize,jdbcType=BIGINT},
+      uf_customInfo = #{urCustominfo,jdbcType=VARCHAR},
+       uf_savePath = #{urSavePath,jdbcType=VARCHAR},
+       uf_originalPath = #{urOriginalPath,jdbcType=VARCHAR},
+      uf_recordTime = #{urRecordtime,jdbcType=DATE}
+    where uf_id = #{urId,jdbcType=BIGINT}
+  </update>
+</mapper>

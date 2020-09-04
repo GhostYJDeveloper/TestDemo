@@ -89,7 +89,8 @@ public class WarehouseController {
     @GetMapping(value = "/rest/warehouse")
     @ResponseBody
     public HashMap getWarehouse(HttpServletRequest request) {
-        HashMap<String, Object> map = new HashMap();
+        HashMap<String, Object> map;
+        map = new HashMap();
         //分页参数
         int currentIndex = NumberUtils.toInt(request.getParameter("page"), 1);
         int pageSize = NumberUtils.toInt(request.getParameter("limit"), 10);
@@ -123,7 +124,7 @@ public class WarehouseController {
         if (warehouse != null)
             return Result.sucessData(warehouse);
         else
-            return Result.error(1, "没有找到Id为" + id + "的用户信息。");
+            return Result.error(1, "没有找到Id为" + id + "的商品信息。");
     }
 
     @DeleteMapping(value = "/rest/warehouse")

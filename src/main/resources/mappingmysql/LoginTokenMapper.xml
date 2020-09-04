@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.model.mapper.LoginTokenMapper">
+    <resultMap id="LoginTokenMapper" type="com.example.demo.model.login.LoginToken">
+        <result column="lt_id" property="id"/>
+        <result column="lt_loginType" property="loginType" typeHandler="com.example.demo.common.LoginTypeEnumStatusHandler"/>
+        <result column="lt_loginId" property="loginId"/>
+        <result column="lt_recordTime" property="recordTime"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.example.demo.model.login.LoginToken">
+        insert into t_loginToken (lt_id,lt_loginType,lt_loginId,lt_recordTime)
+        values (#{id}, #{loginType,typeHandler=com.example.demo.common.LoginTypeEnumStatusHandler}, #{loginId},#{recordTime})
+    </insert>
+
+    <!--根据Id查询-->
+    <select id="selectById" resultMap="LoginTokenMapper" parameterType="java.lang.Long">
+        select *
+        from t_loginToken
+        where lt_id = #{id} order by lt_id desc
+    </select>
+
+    <!--根据登录人员Id查询-->
+    <select id="selectByLoginId" resultMap="LoginTokenMapper" parameterType="java.lang.Long">
+        select *
+        from t_loginToken
+        where lt_loginId = #{loginId} order by lt_id desc
+    </select>
+
+
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="map">
+        select count(*)
+        from t_loginToken
+        WHERE 1=1
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from t_loginToken
+        where lt_id = #{id}
+    </delete>
+
+    <delete id="deleteByLoginId" parameterType="java.lang.Long">
+        delete
+        from t_loginToken
+        where lt_loginId = #{loginId}
+    </delete>
+</mapper>
