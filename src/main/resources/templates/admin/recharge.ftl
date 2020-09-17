@@ -38,7 +38,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">余额(元)</label>
         <div class="layui-input-block">
-            <input class="layui-input" readonly type="text" value="${user.money?c}">
+            <input class="layui-input" readonly type="text" value="${user.money!0}">
         </div>
     </div>
     <div class="layui-inline">

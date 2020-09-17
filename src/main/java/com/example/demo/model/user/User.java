@@ -2,6 +2,7 @@ package com.example.demo.model.user;
 import com.example.demo.common.SnowFlake;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.kafka.connect.data.Decimal;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ public class User {
     /**
      * 钱
      */
+    @Value("0")
     private BigDecimal money;
     /**
      * 上次充值时间

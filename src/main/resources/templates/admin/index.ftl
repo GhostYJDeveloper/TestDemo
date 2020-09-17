@@ -77,7 +77,7 @@
         <div class="layui-footer">
             <!-- 底部固定区域 -->
             GhostYJ SMM 框架
-            <span style="float: right;font-family:'STXinwei';font-size: medium;color: #ff0000">当前余额：${money} 元</span>
+            <span style="float: right;font-family:'STXinwei';font-size: medium;color: #ff0000">当前余额：${money!} 元</span>
         </div>
     </div>
 </body>
