@@ -32,7 +32,7 @@
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-                        <img src="${fileSrc}" style="width:30px;height: 30px">
+                        <img src="${fileSrc!}" style="width:30px;height: 30px">
                         ${userChineseName}
                     </a>
                     <dl class="layui-nav-child">
