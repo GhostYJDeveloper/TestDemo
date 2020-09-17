@@ -185,6 +185,11 @@ public class OrderController {
     public Result deleteById(String id) {
         Order order = orderMapper.selectById(Long.parseLong(id));
 
+        //返回用户的金额
+        User user=userMapper.selectById(order.getUserId());
+        user.setMoney(user.getMoney().add(order.getTotalPrice()));
+        userMapper.update(user);
+
         //加库存
         Warehouse warehouse = warehouseMapper.selectByNumber(order.getCargoNumber());
         warehouse.setCount(warehouse.getCount() + order.getBuyCount());

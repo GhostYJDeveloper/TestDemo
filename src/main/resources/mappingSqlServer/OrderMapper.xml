@@ -41,16 +41,25 @@
 
     <!--分页查询-->
     <select id="selectByPage" resultMap="OrderMap" parameterType="map">
-        select * from t_order
+        select TOP ${pageSize} * from t_order
         WHERE 1=1
         -- 为0时认定为'',此处不筛选
         <if test="userChineseName != null and userChineseName!=''">
-            AND o_userChineseName=#{userChineseName}
+            AND o_userChineseName=${userChineseName}
         </if>
         <if test="orderNumber != null and orderNumber!=''">
-            AND o_orderNumber=#{orderNumber}
+            AND o_orderNumber=${orderNumber}
         </if>
-        limit #{currentIndex} , #{pageSize}
+        AND o_id NOT IN
+        (SELECT TOP ${currentIndex} o_id from t_order
+        WHERE 1=1
+        <if test="userChineseName != null and userChineseName!=''">
+            AND o_userChineseName=${userChineseName}
+        </if>
+        <if test="orderNumber != null and orderNumber!=''">
+            AND o_orderNumber=${orderNumber}
+        </if>
+        )
     </select>
 
     <select id="selectCount" resultType="java.lang.Integer" parameterType="map">

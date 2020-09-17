@@ -29,6 +29,8 @@
                 <option value="1">运动类</option>
                 <option value="2">食品类</option>
                 <option value="3">家具类</option>
+                <option value="4">电脑类</option>
+                <option value="5">键盘类</option>
             </select>
         </div>
     </div>
