@@ -49,15 +49,11 @@
     where uf_domainName=#{domainName} and uf_domainId=#{domainId}
     </delete>
     <insert id="insert" parameterType="com.example.demo.model.uploadFile.UploadFile">
-    insert into t_uploadfile (uf_id, uf_domainName, uf_domainId,
-      uf_fileName, uf_fileDownloadUri, uf_fileType,
+    insert into t_uploadfile (uf_id, uf_domainName, uf_domainId,uf_fileName, uf_fileDownloadUri, uf_fileType,
       uf_size, uf_customInfo,Uf_savePath,uf_originalPath, uf_recordTime
       )
-    values (#{urId,jdbcType=BIGINT}, #{urDomainname,jdbcType=VARCHAR}, #{urDomainid,jdbcType=BIGINT}, 
-      #{urFilename,jdbcType=VARCHAR}, #{urFiledownloaduri,jdbcType=VARCHAR}, #{urFiletype,jdbcType=VARCHAR}, 
-      #{urSize,jdbcType=BIGINT}, #{urCustominfo,jdbcType=VARCHAR}, #{urSavePath,jdbcType=VARCHAR},#{urOriginalPath,jdbcType=VARCHAR},
-      #{urRecordtime,jdbcType=DATE}
-      )
+    values (#{urId}, #{urDomainname}, #{urDomainid},#{urFilename}, #{urFiledownloaduri}, #{urFiletype},#{urSize},
+    #{urCustominfo}, #{urSavePath},#{urOriginalPath},#{urRecordtime})
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.example.demo.model.uploadFile.UploadFile">
     update t_uploadfile
