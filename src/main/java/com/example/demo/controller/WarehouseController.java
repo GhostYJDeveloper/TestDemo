@@ -2,22 +2,17 @@ package com.example.demo.controller;
 
 import com.example.demo.common.LoginTokenHelper;
 import com.example.demo.common.Result;
-import com.example.demo.model.login.LoginToken;
 import com.example.demo.model.mapper.LoginTokenMapper;
+import com.example.demo.model.mapper.WarehouseMapper;
 import com.example.demo.model.warehouse.CreateNumber;
 import com.example.demo.model.warehouse.Warehouse;
-import com.example.demo.model.mapper.WarehouseMapper;
-
-import com.example.demo.model.warehouse.WarehouseTypeEnum;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.kafka.connect.data.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
