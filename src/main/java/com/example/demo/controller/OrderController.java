@@ -104,7 +104,9 @@ public class OrderController {
         }
         //生成编号
         String orderNumber = CreateNumber.make();
-        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, cargoName, orderNumber, Integer.parseInt(buyCount),
+        Date date=new Date(System.currentTimeMillis());
+        Order order = new Order(Long.parseLong(userId), userChineseName, cargoNumber, cargoName, orderNumber,
+                date, Integer.parseInt(buyCount),
                 new BigDecimal(price), new BigDecimal(totalPrice));
         orderMapper.insert(order);
 

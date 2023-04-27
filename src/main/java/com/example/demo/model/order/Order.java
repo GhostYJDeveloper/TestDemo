@@ -13,13 +13,15 @@ public class Order {
 
     }
 
-    public Order(long userId,String userChineseName,String cargoNumber,String cargoName,String orderNumber,Integer buyCount
+    public Order(long userId,String userChineseName,String cargoNumber,String cargoName,String orderNumber,
+                 Date orderDate,Integer buyCount
     ,BigDecimal price,BigDecimal totalPrice){
         id= SnowFlake.instant().nextId();
         this.userId=userId;
         this.userChineseName=userChineseName;
         this.cargoNumber=cargoNumber;
         this.orderNumber=orderNumber;
+        this.orderDate=orderDate;
         this.buyCount=buyCount;
         this.cargoName=cargoName;
         this.price=price;

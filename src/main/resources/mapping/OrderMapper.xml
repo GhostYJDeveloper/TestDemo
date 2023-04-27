@@ -14,8 +14,10 @@
         <result column="o_totalPrice" property="totalPrice"/>
     </resultMap>
     <insert id="insert" parameterType="com.example.demo.model.order.Order">
-        insert into t_order (o_id, o_userId, o_userChineseName, o_cargoNumber,o_cargoName, o_orderNumber,o_buyCount,o_price,o_totalPrice)
-        values (#{id}, #{userId}, #{userChineseName}, #{cargoNumber},#{cargoName}, #{orderNumber},#{buyCount},#{price},#{totalPrice})
+        insert into t_order (o_id, o_userId, o_userChineseName, o_cargoNumber,o_cargoName,
+                             o_orderNumber,o_orderDate,o_buyCount,o_price,o_totalPrice)
+        values (#{id}, #{userId}, #{userChineseName}, #{cargoNumber},#{cargoName},
+                #{orderNumber},#{orderDate},#{buyCount},#{price},#{totalPrice})
     </insert>
 
     <update id="update" parameterType="com.example.demo.model.order.Order">
@@ -26,6 +28,7 @@
             o_cargoNumber=#{cargoNumber},
             o_cargoName=#{cargoName},
             o_orderNumber=#{orderNumber},
+            o_orderDate=#{orderDate},
             o_buyCount=#{buyCount},
             o_price=#{price},
             o_totalPrice=#{totalPrice}
