@@ -147,16 +147,18 @@ public class OrderController {
         List<Order> list = orderMapper.selectByPage(map);
         int count = orderMapper.selectCount();
 
-        List<Warehouse> warehouseList = warehouseMapper.selectByNumberList(
-                list.stream().map(Order::getCargoNumber).collect(Collectors.toList()));
         List<OrderConfig> orderConfigList = new ArrayList<>();
-        for (Order item : list) {
-            //取满足编号的第一个仓库数据
-            Optional<Warehouse> warehouseOptional = warehouseList.stream()
-                    .filter(s -> s.getNumber().equals(item.getCargoNumber())).findFirst();
-            if (warehouseOptional.isPresent()) {
-                Warehouse warehouse = warehouseOptional.get();
-                orderConfigList.add(new OrderConfig(item, warehouse.getName(), warehouse.getType()));
+        if(!list.isEmpty()) {
+            List<Warehouse> warehouseList = warehouseMapper.selectByNumberList(
+                    list.stream().map(Order::getCargoNumber).collect(Collectors.toList()));
+            for (Order item : list) {
+                //取满足编号的第一个仓库数据
+                Optional<Warehouse> warehouseOptional = warehouseList.stream()
+                        .filter(s -> s.getNumber().equals(item.getCargoNumber())).findFirst();
+                if (warehouseOptional.isPresent()) {
+                    Warehouse warehouse = warehouseOptional.get();
+                    orderConfigList.add(new OrderConfig(item, warehouse.getName(), warehouse.getType()));
+                }
             }
         }
 

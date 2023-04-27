@@ -52,10 +52,10 @@
         WHERE 1=1
         -- 为0时认定为'',此处不筛选
         <if test="chineseName != null and chineseName!=''">
-            AND u_chineseName=#{chineseName}
+            AND u_chineseName LIKE CONCAT('%',#{chineseName},'%')
         </if>
         <if test="userName != null and userName!=''">
-            AND u_userName=#{userName}
+            AND u_userName LIKE CONCAT('%',#{userName},'%')
         </if>
         limit #{currentIndex} , #{pageSize}
     </select>
@@ -66,10 +66,10 @@
         WHERE 1=1
         -- 为0时认定为'',此处不筛选
         <if test="chineseName != null and chineseName!=''">
-            AND u_chineseName=#{chineseName}
+            AND u_chineseName LIKE CONCAT('%',#{chineseName},'%')
         </if>
         <if test="userName != null and userName!=''">
-            AND u_userName=#{userName}
+            AND u_userName LIKE CONCAT('%',#{userName},'%')
         </if>
     </select>
 </mapper>

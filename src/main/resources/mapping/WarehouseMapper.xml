@@ -52,7 +52,7 @@
         WHERE 1=1
         -- 为0时认定为'',此处不筛选
         <if test="name != null and name!=''">
-            AND wh_name=#{name}
+            AND wh_name LIKE CONCAT('%',#{name},'%')
         </if>
         <if test="type != null and type!=''">
             AND wh_type=#{type}
