@@ -1,7 +1,6 @@
 package com.example.demo.model.order;
 
 import com.example.demo.common.SnowFlake;
-import org.apache.kafka.connect.data.Decimal;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -2,7 +2,6 @@ package com.example.demo.model.warehouse;
 
 import com.example.demo.common.SnowFlake;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.kafka.connect.data.Decimal;
 
 import java.math.BigDecimal;
 import java.util.Date;
