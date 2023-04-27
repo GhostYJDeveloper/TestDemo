@@ -61,7 +61,6 @@ public class FileController {
                 file.getContentType(), file.getSize(), "HeadPhoto", savePath, originalPath);
     }
 
-
     @PostMapping("/uploadMultipleFiles")
     public List<UploadFile> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
         return Arrays.stream(files).map(this::uploadFile).collect(Collectors.toList());
